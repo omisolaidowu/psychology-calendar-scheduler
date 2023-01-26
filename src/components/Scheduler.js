@@ -88,8 +88,6 @@ function Home(){
         
     }, [])
 
-    console.log(todaysDay.getMonth())
-
 
     const handlestaffchange = useCallback(() =>{
 
@@ -97,28 +95,31 @@ function Home(){
 
       const therapistName = times.map((x)=> Object.keys(x[staffRef.current.value]))
 
+
+
+
       setavailableDays(therapistName[0])
 
 
     
       if(staffRef.current.value==="true"){
         setisStaff(false)
+    
+      }else if(staffRef.current.value!==""){
+        setisStaff(true)
+        setnoTimeMessage("")
+    
       }else{
         
         setisStaff(true)
       }
-    
-
     })
     
     
       const handlechange = useCallback((date)=>{
+        try{
+
         setStartDate(date)
-
-
-        
-
-        // console.log(startDate.toString().split(' '))
 
         const timeString = startDate.toString().split(' ')
 
@@ -132,12 +133,13 @@ function Home(){
         setisStaffChange(true)
 
         console.log(staffRef.current.value)
+
      
         const timed = availableTimes.map((x, i)=>
         x[staffRef.current.value][date.toLocaleString('en-us').split("/")[1]]
         
         )
-
+    
 
         const staffDays = availableTimes.map((x)=>
         Object.keys(x[staffRef.current.value])
@@ -149,10 +151,6 @@ function Home(){
 
           setisPresent(true)
           settimeBind(timed[0])
-
-          // console.log(startDate.toLocaleString('en-us'))
-
-          // console.log(currentDay.getMonth())
                 
         }else{
 
@@ -167,14 +165,18 @@ function Home(){
         }else if(timeRef){
           setisForm(true)
         }
+        
+      }catch(err){
+
+        setnoTimeMessage("Please select a staff")
+        
+      }
 
       })
-
 
       const handlesave =async(e)=>{ 
         e.preventDefault()
 
-        // console.log(timeRef.current.value)
         
         if(timeRef.current.value==="true"){
           setistimeChanged(false)
@@ -189,6 +191,10 @@ function Home(){
           setistimeChanged(false)
           setnoTimeMessage("You cannot submit")
         }
+
+        else if (staffRef.current.value===""){
+          setnoTimeMessage("Please select a staff")
+        }
         
         
         else{
@@ -196,10 +202,6 @@ function Home(){
           handlesubmit(timeRef, dateRef, staffRef)
           setnoTimeMessage("Meeting scheduled successfully! You'll hear from us soon")
         }
-
-        
-        
-        
       
       }
     
@@ -232,10 +234,6 @@ function Home(){
 
      minDate={new Date()}
 
-    //  maxDate = {addDays(new Date(), 20)}
-
-    //  filterDate = {handlePastDays}
-
      showDisabledMonthNavigation
 
      highlightDates={highlightmyDate(availableDays)}
@@ -243,9 +241,8 @@ function Home(){
         
         {isStaff && <div className='time-selector'>
 
-      {/* <p className="option-time">{isPresent&& "Select a time"}</p> */}
 
-     <form onSubmit={handlesave}>
+     <form onSubmit={ handlesave }>
 
         {
         isPresent && todaysDay.getMonth() === currentDay.getMonth()? 
