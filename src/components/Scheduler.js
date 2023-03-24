@@ -13,6 +13,8 @@ import handlesubmit from '../handles/submitHandler';
 
 import image from "../public/Art_of_a_boy_standing_on_a_platform.jpg"
 
+import getData from "../fetch-data/fetch.data";
+
 
 
 function Home(){
@@ -30,13 +32,9 @@ function Home(){
 
     const [timeBind, settimeBind] = useState([]);
 
-    const [availableTimes, setavailableTimes] = useState([]);
-
     const [isPresent, setisPresent] = useState(false)
 
     const [noTimeMessage, setnoTimeMessage] = useState("")
-
-    const [availableStaff, setAvailableStaff] = useState([])
 
     const [isStaffChange, setisStaffChange] = useState(false);
 
@@ -50,41 +48,28 @@ function Home(){
 
     const [isForm, setisForm] = useState(false)
 
+    const [schedules, setSchedules] = useState([])
+
+    const [isLoading, setIsLoading] = useState(false)
 
 
     let currentDay = new Date()
     let todaysDay = new Date(startDate)
 
     
-    let times = [{
-      "Omisola":
-    {
-      1:["3:00 PM", "8:00 AM", "7:00 AM"], 
-      10:["6:00 PM", "12:00 PM"],
-      12:["12:00 PM", "3:00 PM"],
-      13:["1:00 PM", "4:00 PM"],
-      30:["5:00 PM", "7:00 PM"],
-
-    },
-    "Idowu":
-    {
-      30:["1:30 PM", "4:00 PM"],
-      29:["3:00 PM", "8:00 AM", "7:00 AM"], 
-      18:["6:00 PM", "12:00 PM"],
-      19:["1:00 PM", "3:00 PM"],
-      27:["1:00 PM", "4:00 PM"],
-      31:["5:00 PM", "7:00 PM", "9:00 PM"],
-    },
-  }]
-    
     useEffect(()=>{
 
-      setavailableTimes(times)
+      const abortController = new AbortController()
 
-        const staff = times.map(x=>Object.keys(x))
-
-        setAvailableStaff(staff[0])
-
+      setIsLoading(true)
+        getData(setSchedules)
+      setIsLoading(false)
+      
+      return () => {
+        abortController.abort()
+        // stop the query by aborting on the AbortController on unmount
+      }
+        
         
     }, [])
 
@@ -92,14 +77,22 @@ function Home(){
     const handlestaffchange = useCallback(() =>{
 
       setisStaffChange(false)
+      
 
-      const therapistName = times.map((x)=> Object.keys(x[staffRef.current.value]))
+      const getNames = (schedules.map(x=>Object.keys(x)[4]))
+
+      const currentNameIndex = getNames.indexOf(staffRef.current.value)
 
 
+      console.log(currentNameIndex)
+
+      const days = schedules.map((x)=>  
+      x[staffRef.current.value])[currentNameIndex]
+      
 
 
-      setavailableDays(therapistName[0])
-
+      // Below gets the dates highlighted for chosen staff:
+      setavailableDays(days.map((x, i)=>Object.keys(x)))
 
     
       if(staffRef.current.value==="true"){
@@ -117,40 +110,56 @@ function Home(){
     
     
       const handlechange = useCallback((date)=>{
-        try{
+        
 
         setStartDate(date)
 
         const timeString = startDate.toString().split(' ')
 
-  
-
         const scheduledTime = timeString[0]+" "+timeString[1]+" "+timeString[2]+" "+timeString[3]
 
         settimeString(scheduledTime)
 
-        console.log(scheduledTime)
         setisStaffChange(true)
 
-        console.log(staffRef.current.value)
 
-     
-        const timed = availableTimes.map((x, i)=>
-        x[staffRef.current.value][date.toLocaleString('en-us').split("/")[1]]
+        let daysList = []
+
+        daysList.push(availableDays.toString().split(","))
+
+        const timed = schedules.map((x, i)=> Object.keys(x))
+
+        console.log(timed)
+
+
+        // get the index of the chosen staff as per the name key:
+
+        const getNames = (schedules.map(x=>Object.keys(x)[4]))
+
+        const currentNameIndex = getNames.indexOf(staffRef.current.value)
         
-        )
-    
 
-        const staffDays = availableTimes.map((x)=>
-        Object.keys(x[staffRef.current.value])
+        // use the current staff index to filter the available times for the chosen staff:
+        const data = schedules.map((x, i)=> x[staffRef.current.value])[currentNameIndex]
+
+        // filter the available times by their keys at index 0 to get the staff time array:
+        const getDays = (data.map(x=>Object.keys(x)[0]))
         
-        )
+        // get the index of each time array:
+        const currentDateIndex = getDays.indexOf(date.toLocaleString('en-us').split("/")[1])
 
 
-        if (staffDays[0].includes(date.toLocaleString('en-us').split("/")[1])) {
+
+        if (daysList[0].includes(date.toLocaleString('en-us').split("/")[1])) {
 
           setisPresent(true)
-          settimeBind(timed[0])
+
+          // bind the time to a state: this takes thethe form ==> e.g data[0]["15"]:
+          settimeBind(
+            Object.values(
+              data[currentDateIndex][date.toLocaleString('en-us').split("/")[1]]
+              )
+            )
                 
         }else{
 
@@ -166,11 +175,7 @@ function Home(){
           setisForm(true)
         }
         
-      }catch(err){
-
-        setnoTimeMessage("Please select a staff")
-        
-      }
+      
 
       })
 
@@ -193,7 +198,7 @@ function Home(){
         }
 
         else if (staffRef.current.value===""){
-          setnoTimeMessage("Please select a staff")
+          setnoTimeMessage("Please select a therapist")
         }
         
         
@@ -211,12 +216,15 @@ function Home(){
 
           <h2>Schedule a meeting with us today!</h2>
 
+          {isLoading?<div class="spin"></div>:
 
 
-<select className="staff-selector" ref={staffRef} onChange={handlestaffchange}>
-      <option disabled selected value hidden>--Select a Therapist-- </option>
-        {availableStaff.map((x, i)=><option key={i}>{x}</option>)}
-</select>
+
+<select defaultValue={'DEFAULT'} className="staff-selector" ref={staffRef} onChange={handlestaffchange}>
+      <option value="DEFAULT" disabled hidden>--Select a Therapist-- </option>
+        {schedules.map((x, i)=><option key={i}>{Object.keys(x)[4]}</option>)}
+</select>}
+
 <div className="image-container"><img alt="idowu" className="background" src={image} /></div>
 
      {isStaff &&
@@ -242,14 +250,14 @@ function Home(){
         {isStaff && <div className='time-selector'>
 
 
-     <form onSubmit={ handlesave }>
+     <form onSubmit={ handlesave } defaultValue="Initial value">
 
         {
         isPresent && todaysDay.getMonth() === currentDay.getMonth()? 
-        <select className="time-seletor-select" ref={timeRef} required>
-        <option disabled selected value>--Select a meeting time-- </option>
+        <select defaultValue={'DEFAULT'} className="time-seletor-select" ref={timeRef} required>
+        <option value="DEFAULT" disabled>--Select a meeting time-- </option>
         {isStaffChange ? timeBind.map((x, i)=><option key={i}>{x}</option>): 
-        <option disabled selected value>--Select a meeting time-- </option>}
+        <option value="DEFAULT" disabled>--Select a meeting time-- </option>}
         </select>:
         isPresent && todaysDay.getMonth() !== currentDay.getMonth()?
         <p className="no-time">Slots not yet available for the selected month</p>:
@@ -285,6 +293,7 @@ function Home(){
       </form>
       
     </div>}
+    
 
     
   </div>
