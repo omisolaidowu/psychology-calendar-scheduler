@@ -248,31 +248,15 @@ function Home(){
         
         
         else{
-
-          let dateSelected = dateRef.current.value.toLocaleString('en-us').split("-")
-          
-          let firstName = schedules.map((x)=> {return x.first_name})
-
-          let last_namedata = schedules.map((x)=> {return x.last_name})
-
-          let email_data = schedules.map((x)=> {return x.email})
-
-          const currFirstNameIndex = firstName.indexOf(staffRef.current.value)
-
-          let last_name = last_namedata[currFirstNameIndex]
-
-          let selectedEmail = email_data[currFirstNameIndex]
-          setistimeChanged(true)
-
-          let removeData = removeTimeDate(
+          handlesubmit(
             setremovedMessage,
             setStatus,
-            staffRef.current.value,
-            last_name,
-            selectedEmail,
-            dateSelected[2],
             timeRef.current.value,
-        )
+            dateRef.current.value,
+            staffRef.current.value,
+            schedules
+          )
+          setistimeChanged(true)
 
 
         settimeSelected(true)
@@ -280,14 +264,6 @@ function Home(){
         timeRef.current.value = "Select a meeting time"
         dateRef.current.value = ""
         staffRef.current.value = "Select a staff"
-
-    
-        console.log("remMessage:", removedMessage)
-        console.log("first_name:", staffRef.current.value)
-        console.log("last_name:", last_name)
-        console.log("email:", selectedEmail)
-        console.log("datetoRem:", dateSelected[2])
-        console.log("timeTorem:", timeRef.current.value)
 
        
         setnoTimeMessage("Meeting scheduled successfully! You'll hear from us soon")
@@ -297,6 +273,8 @@ function Home(){
   
       
       })
+
+      console.log(status)
       
     
     return(
