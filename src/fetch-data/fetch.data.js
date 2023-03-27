@@ -2,7 +2,7 @@
 
 
 
-const getData = async (setData)=>{
+const getData = async (setData, setfetchError, setisFetched, setisLoaded)=>{
 
 
 
@@ -10,11 +10,14 @@ const getData = async (setData)=>{
     method: 'GET',
     redirect: 'follow'
   };
+
+  setisLoaded(false)
   
   let data = await fetch("http://localhost:5000/api/get-data", requestOptions)
+
     .then((response) => response.json())
-    .then(result => {return setData(result["data"])})
-    .catch(error => console.log('error', error));
+    .then(result => {return (setData(result["data"]), setisFetched(true), setisLoaded(true))})
+    .catch(error => {return (setfetchError('error loading resources'), setisFetched(false))});
 
     return data
   }

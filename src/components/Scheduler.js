@@ -31,7 +31,7 @@ function Home(){
     
     const [availableDays, setavailableDays] = useState([]);
 
-    const [timeBind, settimeBind] = useState([]);
+    let [timeBind, settimeBind] = useState([]);
 
     const [isPresent, setisPresent] = useState(false)
 
@@ -52,10 +52,12 @@ function Home(){
 
     const [status, setStatus] = useState("")
 
+    const [isDateGone, setisDateGone] = useState(false)
+
     // const [timeSelected, setSelectedTimes] = useState(false)
 
     const [removedMessage, setremovedMessage] = useState([])
-    const [timeSelected, settimeSelected] = useState(false)
+    const [isTimePicked, setisTimePicked] = useState(false)
 
 
 
@@ -63,7 +65,15 @@ function Home(){
 
     const [schedules, setSchedules] = useState([])
 
-    const [isLoading, setIsLoading] = useState(false)
+    const [isLoaded, setisLoaded] = useState(false)
+
+    const [isSubmitted, setisSubmitted] = useState(false)
+
+    const [isFetched, setisFetched] = useState(false)
+
+    const [fetchError, setfetchError] = useState("")
+
+
 
 
     let currentDay = new Date()
@@ -74,9 +84,11 @@ function Home(){
 
       const abortController = new AbortController()
 
-      setIsLoading(true)
-        getData(setSchedules)
-      setIsLoading(false)
+      
+        getData(setSchedules, setfetchError, setisFetched, setisLoaded)
+    
+      
+      
       
       return () => {
         abortController.abort()
@@ -84,17 +96,27 @@ function Home(){
       }
         
         
-    }, [])
+    }, [isTimePicked])
+
+    
 
 
     const handlestaffchange = useCallback(() =>{
 
       setisStaffChange(false)
-      
 
       const getNames = (schedules.map(x=>Object.keys(x)[4]))
 
       const currentNameIndex = getNames.indexOf(staffRef.current.value)
+
+
+      if (timeBind.length <1){
+        setisTimePicked(true)
+      }else{
+        setisTimePicked(false)
+      }
+
+      console.log(timeBind)
 
 
       // console.log(currentNameIndex)
@@ -112,7 +134,9 @@ function Home(){
           setisTime(true)
 
          }
-         else{
+         else if(Object.values(element)[0].length<1){
+          setisTime(false)
+         }else{
           setisTime(false)
          }
         
@@ -222,6 +246,7 @@ function Home(){
 
       const handlesave = useCallback (async(e)=>{ 
         e.preventDefault()
+        setisTimePicked(true)
         
         if(timeRef.current.value==="true"){
           setistimeChanged(false)
@@ -231,41 +256,68 @@ function Home(){
 
         }else if(timeRef.current.value===""){
           setistimeChanged(false)
+          
           setnoTimeMessage("Please select a meeting time")
         }else if(timeRef.current.value==="undefined"){
           setistimeChanged(false)
           setnoTimeMessage("You cannot submit")
+          
         }
 
         else if( timeRef.current.value==="DEFAULT"){
+         
           setnoTimeMessage("No meeting time selected. Please pick a time or check other therapists")
         }
 
 
         else if (staffRef.current.value===""){
+          
           setnoTimeMessage("Please select a therapist")
         }
+
+        
         
         
         else{
+
+
+          setisSubmitted(false)
           handlesubmit(
             setremovedMessage,
             setStatus,
             timeRef.current.value,
             dateRef.current.value,
             staffRef.current.value,
-            schedules
+            schedules,
+            setisSubmitted
           )
           setistimeChanged(true)
 
+          setisSubmitted(true)
 
-        settimeSelected(true)
+
+
+        
+        // let currTimeIndex = timeBind.indexOf(timeRef.current.value)
+
+        // let x = timeBind.splice(currTimeIndex, 1)
+
+
+        // console.log(availableDays)
+
+        // console.log(startDate.toLocaleString('en-us').split("/")[1])
+
+        if(timeBind.length<1){
+          setisDateGone(true)
+        }else{
+          setisDateGone(false)
+        }
 
         timeRef.current.value = "Select a meeting time"
         dateRef.current.value = ""
         staffRef.current.value = "Select a staff"
 
-       
+
         setnoTimeMessage("Meeting scheduled successfully! You'll hear from us soon")
       
 
@@ -274,7 +326,9 @@ function Home(){
       
       })
 
-      console.log(status)
+      
+
+      
       
     
     return(
@@ -283,7 +337,7 @@ function Home(){
 
           <h2>Schedule a meeting with us today!</h2>
 
-          {isLoading?<div class="spin"></div>:
+          {!isFetched? <>{fetchError}</>:
 
 
 
@@ -311,7 +365,7 @@ function Home(){
 
      showDisabledMonthNavigation
 
-     highlightDates={isTime && highlightmyDate(availableDays)}
+     highlightDates={!isDateGone && highlightmyDate(availableDays)}
      />:!isStaff? "": "Staff unavailable for the day"
      }
         
@@ -324,9 +378,10 @@ function Home(){
         isPresent && todaysDay.getMonth() === currentDay.getMonth()? 
         <select defaultValue={'DEFAULT'} className="time-seletor-select" ref={timeRef} required>
         <option value="DEFAULT" disabled>--Select a meeting time-- </option>
-        {isStaffChange? 
+        {isStaffChange && isTime? 
         timeBind.map((x, i)=><option key={i}>{x}</option>):
          
+        isTimePicked && timeBind.length===0? <option value="DEFAULT" disabled>--Select a meeting time-- </option>:
         <option value="DEFAULT" disabled>--Select a meeting time-- </option>}
 
         </select>:
@@ -345,18 +400,26 @@ function Home(){
       }</p>
 
 
-      <div className="time-message">
+      <div>
         <strong> 
-          {status===0? removedMessage:
-          !istimeChanged && noTimeMessage}
+          {
+          
+          status===1 && istimeChanged?
+          <div className="time-message-success">
+            {noTimeMessage}
+          </div>:
+          status===0?
+          <div className="time-message">
+            {removedMessage}
+          </div>:
+          
+          !istimeChanged && noTimeMessage
+          }
         </strong>
       </div>
 
       <div className="time-message-success">
-        <strong>
-          {
-          status===1 && istimeChanged && noTimeMessage}
-        </strong>
+        
       </div>
 
       {

@@ -6,8 +6,7 @@ const removeTimeDate = async (
     lastName,
     emailAddress,
     selectedDay,
-    selectedTime 
-
+    selectedTime
     )=>{
 
 var myHeaders = new Headers();
@@ -31,13 +30,19 @@ var requestOptions = {
   redirect: 'follow'
 };
 
+
   let data = await fetch("http://localhost:5000/api/remove-selected-time", requestOptions)
   .then(response =>  response.json())
   .then(result => {
-    return (setMessage(result["message"]),  setStatus(result["status"] 
+    return (
+      setMessage(result["message"]),  
+      setStatus(result["status"],
     ))
   })
-  .catch(error => console.log('error', error));
+  .catch(error => {
+    return (
+    setMessage("Unable to schedule meeting, please try again later or contact admin")
+    )});
 
   return data
 }
