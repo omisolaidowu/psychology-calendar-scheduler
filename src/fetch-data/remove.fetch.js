@@ -1,0 +1,45 @@
+
+const removeTimeDate = async (
+    setMessage, 
+    setStatus,
+    firstName, 
+    lastName,
+    emailAddress,
+    selectedDay,
+    selectedTime 
+
+    )=>{
+
+var myHeaders = new Headers();
+myHeaders.append("Content-Type", "application/json");
+
+
+var raw = JSON.stringify({
+  "first_name": firstName,
+  "last_name": lastName,
+  "email": emailAddress,
+  "days": selectedDay,
+  "scheduleTimes": [
+  ],
+  "time": selectedTime
+});
+
+var requestOptions = {
+  method: 'POST',
+  headers: myHeaders,
+  body: raw,
+  redirect: 'follow'
+};
+
+  let data = await fetch("http://localhost:5000/api/remove-selected-time", requestOptions)
+  .then(response =>  response.json())
+  .then(result => {
+    return (setMessage(result["message"]),  setStatus(result["status"] 
+    ))
+  })
+  .catch(error => console.log('error', error));
+
+  return data
+}
+
+export default removeTimeDate

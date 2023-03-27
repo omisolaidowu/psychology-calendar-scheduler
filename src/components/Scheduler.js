@@ -14,6 +14,7 @@ import handlesubmit from '../handles/submitHandler';
 import image from "../public/Art_of_a_boy_standing_on_a_platform.jpg"
 
 import getData from "../fetch-data/fetch.data";
+import  removeTimeDate from "../fetch-data/remove.fetch";
 
 
 
@@ -42,7 +43,19 @@ function Home(){
 
     const [istimeChanged, setistimeChanged] = useState(false)
 
+    const [isTime, setisTime] = useState(false)
+
+    const [isDay, setisDay] = useState(false)
+
+
     const [timeString, settimeString] = useState("")
+
+    const [status, setStatus] = useState("")
+
+    // const [timeSelected, setSelectedTimes] = useState(false)
+
+    const [removedMessage, setremovedMessage] = useState([])
+    const [timeSelected, settimeSelected] = useState(false)
 
 
 
@@ -84,17 +97,41 @@ function Home(){
       const currentNameIndex = getNames.indexOf(staffRef.current.value)
 
 
-      console.log(currentNameIndex)
+      // console.log(currentNameIndex)
 
       const days = schedules.map((x)=>  
       x[staffRef.current.value])[currentNameIndex]
-      
 
 
-      // Below gets the dates highlighted for chosen staff:
+
+      // const x = 
+      // days.map((i, x)=> console.log(i))
+      days.forEach((element, index) => {
+         if (Object.values(element)[0].length>=1){
+
+          setisTime(true)
+
+         }
+         else{
+          setisTime(false)
+         }
+        
+      });
+
+      // console.log(x)
+
+
+     // Below gets the dates highlighted for chosen staff:
+      if (days.length !==undefined){
+        setisDay(true)
       setavailableDays(days.map((x, i)=>Object.keys(x)))
-
-    
+      }
+      else{
+        setisDay(false)
+        
+      }
+      
+        
       if(staffRef.current.value==="true"){
         setisStaff(false)
     
@@ -109,8 +146,7 @@ function Home(){
     })
     
     
-      const handlechange = useCallback((date)=>{
-        
+      const handlechange = useCallback((date)=>{        
 
         setStartDate(date)
 
@@ -127,9 +163,7 @@ function Home(){
 
         daysList.push(availableDays.toString().split(","))
 
-        const timed = schedules.map((x, i)=> Object.keys(x))
-
-        console.log(timed)
+        console.log("days:", daysList[0])
 
 
         // get the index of the chosen staff as per the name key:
@@ -153,13 +187,20 @@ function Home(){
         if (daysList[0].includes(date.toLocaleString('en-us').split("/")[1])) {
 
           setisPresent(true)
+          
+
+          const availtimes = Object.values(
+            data[currentDateIndex][date.toLocaleString('en-us').split("/")[1]]
+            )
+
+            
+
+            settimeBind(availtimes)
 
           // bind the time to a state: this takes thethe form ==> e.g data[0]["15"]:
-          settimeBind(
-            Object.values(
-              data[currentDateIndex][date.toLocaleString('en-us').split("/")[1]]
-              )
-            )
+
+        
+              console.log(timeBind.length !==0)
                 
         }else{
 
@@ -179,9 +220,8 @@ function Home(){
 
       })
 
-      const handlesave =async(e)=>{ 
+      const handlesave = useCallback (async(e)=>{ 
         e.preventDefault()
-
         
         if(timeRef.current.value==="true"){
           setistimeChanged(false)
@@ -197,18 +237,67 @@ function Home(){
           setnoTimeMessage("You cannot submit")
         }
 
+        else if( timeRef.current.value==="DEFAULT"){
+          setnoTimeMessage("No meeting time selected. Please pick a time or check other therapists")
+        }
+
+
         else if (staffRef.current.value===""){
           setnoTimeMessage("Please select a therapist")
         }
         
         
         else{
+
+          let dateSelected = dateRef.current.value.toLocaleString('en-us').split("-")
+          
+          let firstName = schedules.map((x)=> {return x.first_name})
+
+          let last_namedata = schedules.map((x)=> {return x.last_name})
+
+          let email_data = schedules.map((x)=> {return x.email})
+
+          const currFirstNameIndex = firstName.indexOf(staffRef.current.value)
+
+          let last_name = last_namedata[currFirstNameIndex]
+
+          let selectedEmail = email_data[currFirstNameIndex]
           setistimeChanged(true)
-          handlesubmit(timeRef, dateRef, staffRef)
-          setnoTimeMessage("Meeting scheduled successfully! You'll hear from us soon")
-        }
+
+          let removeData = removeTimeDate(
+            setremovedMessage,
+            setStatus,
+            staffRef.current.value,
+            last_name,
+            selectedEmail,
+            dateSelected[2],
+            timeRef.current.value,
+        )
+
+
+        settimeSelected(true)
+
+        timeRef.current.value = "Select a meeting time"
+        dateRef.current.value = ""
+        staffRef.current.value = "Select a staff"
+
+    
+        console.log("remMessage:", removedMessage)
+        console.log("first_name:", staffRef.current.value)
+        console.log("last_name:", last_name)
+        console.log("email:", selectedEmail)
+        console.log("datetoRem:", dateSelected[2])
+        console.log("timeTorem:", timeRef.current.value)
+
+       
+        setnoTimeMessage("Meeting scheduled successfully! You'll hear from us soon")
       
-      }
+
+        }
+  
+      
+      })
+      
     
     return(
         
@@ -227,7 +316,7 @@ function Home(){
 
 <div className="image-container"><img alt="idowu" className="background" src={image} /></div>
 
-     {isStaff &&
+     {isStaff && isDay ?
      
      <DatePicker className="calendar"
      inline
@@ -238,14 +327,15 @@ function Home(){
      calendarContainer={MyContainer}
      
      
-     dateFormat="MMMM d, yyyy h:mm"
+     dateFormat="yyyy-MMMM, d h:mm"
 
      minDate={new Date()}
 
      showDisabledMonthNavigation
 
-     highlightDates={highlightmyDate(availableDays)}
-     />}
+     highlightDates={isTime && highlightmyDate(availableDays)}
+     />:!isStaff? "": "Staff unavailable for the day"
+     }
         
         {isStaff && <div className='time-selector'>
 
@@ -256,9 +346,13 @@ function Home(){
         isPresent && todaysDay.getMonth() === currentDay.getMonth()? 
         <select defaultValue={'DEFAULT'} className="time-seletor-select" ref={timeRef} required>
         <option value="DEFAULT" disabled>--Select a meeting time-- </option>
-        {isStaffChange ? timeBind.map((x, i)=><option key={i}>{x}</option>): 
+        {isStaffChange? 
+        timeBind.map((x, i)=><option key={i}>{x}</option>):
+         
         <option value="DEFAULT" disabled>--Select a meeting time-- </option>}
+
         </select>:
+       
         isPresent && todaysDay.getMonth() !== currentDay.getMonth()?
         <p className="no-time">Slots not yet available for the selected month</p>:
         <p className="no-time">{timeBind}</p>
@@ -268,19 +362,22 @@ function Home(){
       isPresent && todaysDay.getMonth() !== currentDay.getMonth()?"":
 
       isPresent && <input type="text" ref={dateRef} required contentEditable
-       value={isStaffChange ? startDate.toLocaleString('en-us').split(",")[0]:""}/>
+       value={isStaffChange ? 
+        startDate.toISOString().split("T")[0].replace("/", "-").replace("/", "-"):""}/>
       }</p>
 
 
       <div className="time-message">
-        <strong>
-          {!istimeChanged && noTimeMessage}
+        <strong> 
+          {status===0? removedMessage:
+          !istimeChanged && noTimeMessage}
         </strong>
       </div>
 
       <div className="time-message-success">
         <strong>
-          {istimeChanged && noTimeMessage}
+          {
+          status===1 && istimeChanged && noTimeMessage}
         </strong>
       </div>
 
@@ -293,6 +390,7 @@ function Home(){
       </form>
       
     </div>}
+
     
 
     
