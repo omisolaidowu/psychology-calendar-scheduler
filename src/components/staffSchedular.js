@@ -1,6 +1,6 @@
 import schedular from "../calendar/staffSchedular";
 import {useRef, useState, useEffect } from "react";
-import styleOnClick from "../calendar/styleButtonClick";
+
 
 
 function StaffSchedule(){
@@ -8,6 +8,7 @@ function StaffSchedule(){
     const dateRef = useRef()
     const timesRef = useRef()
     const [isavailWeekend, setisavailWeekend] = useState(true)
+    const [isdeleted, setisdeleted] = useState(false)
 
     useEffect(()=>{
 
@@ -19,9 +20,9 @@ function StaffSchedule(){
         }
           
           
-      }, [])
+      }, [isdeleted])
 
-      const dateAction=(cellValue)=>{
+      const saveAction=(cellValue)=>{
         //Todo: Post data from table to database
         console.log(cellValue);
 
@@ -30,10 +31,12 @@ function StaffSchedule(){
 
 
       const deleteAction=(cellValue)=>{
+
         //Todo: Post data from table to database
         console.log(cellValue);
+        setisdeleted(true)
 
-        // disable save button once delete is clicked
+        // enable save button once delete is clicked
       }
 
       const disableWeekends=(e)=>{
@@ -47,12 +50,16 @@ function StaffSchedule(){
 
       }
 
+      const styleOnClick=(e)=>{
 
+        console.log(e.target)
+    
+        e.target.style.backgroundColor = "green"
+   
+       
+    }
+    
       
-
-
-      
-
       return(
         <div>
             Not available on weekends? <input className="checkAvail" onClick={disableWeekends} type="checkbox" 
@@ -74,19 +81,19 @@ function StaffSchedule(){
                     <td key={"dates"} ref={dateRef}>{x.date}</td>
                     <td key={"times"}>
                         {x.times.map((x, index)=> 
-                        <button key={index} value={x} ref={timesRef} onClick={()=>styleOnClick(x)}
+                        <button key={index} data-target={x} ref={timesRef} onClick={styleOnClick}
                          id="time-buttons" className="time-buttons">{x}
                         </button>)}
                     </td>
 
                     {!isavailWeekend && (x.DaysName==="Saturday" || x.DaysName==="Sunday")?
-                        <td><button className="save-button disabled" disabled onClick={()=>dateAction(x.date)}>Save</button></td>:
-                        <td><button className="save-button" onClick={()=>dateAction(x.date)}>Save</button></td>
+                        <td><button className="save-button disabled" disabled onClick={()=>saveAction(x.date)}>Save</button></td>:
+                        <td><button className="save-button" onClick={()=>saveAction(x.date)}>Save</button></td>
                     }
 
                     {!isavailWeekend && (x.DaysName==="Saturday" || x.DaysName==="Sunday")?
-                        <td><button className="save-button disabled" disabled onClick={()=>dateAction(x.date)}>Delete</button></td>:
-                        <td><button className="save-button" onClick={()=>deleteAction(x.date)}>Delete</button></td>
+                        <td><button className="save-button disabled" disabled onClick={()=>deleteAction(x.date)}>Delete</button></td>:
+                        <td><button className="save-button" id="save-button delete" onClick={()=>deleteAction(x.date)}>Delete</button></td>
                     }
 
                 </tr>
