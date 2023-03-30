@@ -71,7 +71,10 @@ function Home(){
 
     const [isFetched, setisFetched] = useState(false)
 
+    const [isStaffSelected, setisStaffSelected] = useState(false)
+
     const [fetchError, setfetchError] = useState("")
+
 
 
 
@@ -100,8 +103,9 @@ function Home(){
 
     
 
-
     const handlestaffchange = useCallback(() =>{
+
+      setisStaffSelected(true)
 
       setisStaffChange(false)
 
@@ -112,7 +116,11 @@ function Home(){
 
       if (timeBind.length <1){
         setisTimePicked(true)
-      }else{
+      }
+      else if(typeof(timeBind)==="string"){
+        setisTimePicked(true)
+      }
+      else{
         setisTimePicked(false)
       }
 
@@ -200,6 +208,7 @@ function Home(){
         // use the current staff index to filter the available times for the chosen staff:
         const data = schedules.map((x, i)=> x[staffRef.current.value])[currentNameIndex]
 
+
         // filter the available times by their keys at index 0 to get the staff time array:
         const getDays = (data.map(x=>Object.keys(x)[0]))
         
@@ -275,15 +284,12 @@ function Home(){
           setnoTimeMessage("Please select a therapist")
         }
 
-        
-        
-        
         else{
 
 
-          setisSubmitted(false)
+          // setisSubmitted(true)
           handlesubmit(
-            setremovedMessage,
+            setnoTimeMessage,
             setStatus,
             timeRef.current.value,
             dateRef.current.value,
@@ -293,7 +299,9 @@ function Home(){
           )
           setistimeChanged(true)
 
-          setisSubmitted(true)
+          // setisSubmitted(false)
+
+          console.log(timeBind)
 
 
 
@@ -318,7 +326,7 @@ function Home(){
         staffRef.current.value = "Select a staff"
 
 
-        setnoTimeMessage("Meeting scheduled successfully! You'll hear from us soon")
+        // setnoTimeMessage("Meeting scheduled successfully! You'll hear from us soon")
       
 
         }
@@ -410,7 +418,7 @@ function Home(){
           </div>:
           status===0?
           <div className="time-message">
-            {removedMessage}
+            {noTimeMessage}
           </div>:
           
           !istimeChanged && noTimeMessage
@@ -424,7 +432,11 @@ function Home(){
 
       {
       isPresent && todaysDay.getMonth() !== currentDay.getMonth()? "":
-      isPresent && <button type='submit'>Save</button>
+
+      isSubmitted? <button className="schedule-button" disabled type='submit'>
+        <div className="spin"></div>Schedule</button>:
+      
+      isPresent && <button className="schedule-button" type='submit'>Schedule</button>
       
       }
       

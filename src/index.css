@@ -143,16 +143,24 @@ body{
     color: white;
 }
 
+.schedule-button{
+    width: 100px;
+    height: 25px;
+}
+
 
 .spin {
-    border: 16px solid #0042A4;
+    border: 5px solid #0042A4;
     border-radius: 50%;
-    border-top: 16px solid #3775CF;
-    border-right: 16px solid #619BEE;
-    border-bottom: 16px solid #96BFF9;
-    border-left: 16px solid #C9E0FF;
-    width: 50px;
-    height: 50px;
+    border-top: 5px solid #3775CF;
+    border-right: 5px solid #619BEE;
+    border-bottom: 5px solid #96BFF9;
+    border-left: 5px solid #C9E0FF;
+    width: 5px;
+    height: 5px;
+    margin-left: 90%;
+    margin-top: 3px;
+    position: relative;
     -webkit-animation: spin 1.5s linear infinite;
     animation: spin 1.5s linear infinite;
   }
@@ -173,3 +181,25 @@ body{
     }
   }
 
+
+  table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 5%;
+  }
+  
+  td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+  
+  tr:nth-child(even) {
+    background-color:black;
+  }
+
+  .checkAvail{
+
+    transform: scale(2.0)
+  }

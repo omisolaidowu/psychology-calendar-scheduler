@@ -6,7 +6,8 @@ const handlesubmit = (
     time, 
     date, 
     staff,
-    schedules
+    schedules,
+    setisSubmitted
     ) =>{
         let dateSelected = date.toLocaleString('en-us').split("-")
           
@@ -31,6 +32,7 @@ const handlesubmit = (
           selectedEmail,
           dateSelected[2],
           time,
+          setisSubmitted
       )
 
     
