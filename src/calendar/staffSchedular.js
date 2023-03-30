@@ -30,8 +30,7 @@ let days = daysofMonth.map(x=>
             {
                 "DaysName": getDayName(yearNow, monthNow, x),
                 "date": x, 
-                "times": ["10:00AM", "12:00PM", "2:00PM"],
-                "disabled": false
+                "times": ["10:00AM", "12:00PM", "2:00PM"]
             })
     })
 

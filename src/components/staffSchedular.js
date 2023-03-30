@@ -61,7 +61,6 @@ function StaffSchedule(){
                         <td><button disabled onClick={()=>dateAction(x.date)}>Save</button></td>:
                         <td><button onClick={()=>dateAction(x.date)}>Save</button></td>
                         }
-                    <td id="disabled" hidden key={"disabled"}>{x.disabled}</td>
                 </tr>)}
                 )
                 }
