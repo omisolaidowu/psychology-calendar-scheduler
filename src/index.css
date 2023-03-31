@@ -240,5 +240,8 @@ body{
     opacity: 0.6;
     cursor: not-allowed;
   }
+  .inArray-message{
+    color: red;
+  }
 
   
