@@ -231,9 +231,16 @@ body{
   }
 
   .time-buttons{
-    width: 65px;
+    width: 70px;
     padding-left: 0;
     padding-right: 0;
+  }
+
+  .fa-close{
+    width: 80px;
+    background-color: rgb(219, 238, 219);
+    color: black;
+
   }
 
   .disabled {
@@ -242,6 +249,38 @@ body{
   }
   .inArray-message{
     color: red;
+    background-color: aliceblue;
+    width: fit-content;
+    position: fixed;
   }
+.error-message{
+    color: red;
+}
 
-  
+.success-message{
+    color: #4CAF50;
+}
+.time-button-container{
+    position:fixed;
+    top: 35px;
+}
+
+.error-message{
+    position:fixed;
+    top:10px;
+    background-color: white;
+
+}
+
+.success-message{
+    position:fixed;
+    top:10px;
+    background-color: white;
+
+}
+
+.staff-input-container{
+    margin-top:120px;
+    
+}
+

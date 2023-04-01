@@ -182,6 +182,8 @@ function Home(){
 
         setStartDate(date)
 
+        console.log(startDate)
+
         const timeString = startDate.toString().split(' ')
 
         const scheduledTime = timeString[0]+" "+timeString[1]+" "+timeString[2]+" "+timeString[3]
@@ -322,7 +324,7 @@ function Home(){
         }
 
         timeRef.current.value = "Select a meeting time"
-        dateRef.current.value = ""
+       
         staffRef.current.value = "Select a staff"
 
 

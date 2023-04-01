@@ -1,23 +1,44 @@
 import schedular from "../calendar/staffSchedular";
 import {useRef, useState, useEffect } from "react";
-import getUniqueArry from "../calendar/removeDoubeTimes";
+import getData from "../fetch-data/fetch.data";
 
-
+import postSchedule from "../fetch-data/post.schedule";
+import updateSchedule from "../fetch-data/update.schedule";
 
 function StaffSchedule(){
     const [monthCal, setmonthCal] = useState([])
     const dateRef = useRef()
     const timesRef = useRef()
+    const firstNameRef = useRef()
+    const lastNameRef = useRef()
+    const emailRef = useRef()
     const [isavailWeekend, setisavailWeekend] = useState(true)
     const [isdeleted, setisdeleted] = useState(false)
     const [timeHandle, setTimeHandle] = useState([])
     const [existsMessage, setexistsMessage] = useState("")
     const [isTimeInArray, setisTimeInArray] = useState(false)
+    const [schedules, setSchedules] = useState([])
+    const [fetchError, setfetchError] = useState("")
+    const [isFetched, setisFetched] = useState(false)
+    const [isLoaded, setisLoaded] = useState(false)
+
+    const [isPosted, setisPosted] = useState(false)
+    const [Response, setResponse] = useState([])
+    const [isEmpty, setisEmpty] = useState(false)
+    const [arrEmpty, setarrEmpty] = useState(false)
+
+    
 
     useEffect(()=>{
 
         const abortController = new AbortController()
         setmonthCal(schedular())
+        getData(
+            setSchedules, 
+            setfetchError, 
+            setisFetched, 
+            setisLoaded
+            )
         
         return () => {
           abortController.abort()
@@ -28,12 +49,72 @@ function StaffSchedule(){
 
       const saveAction=(cellValue)=>{
         //Todo: Post data from table to database
+
+        const getNames = (schedules.map(x=>Object.keys(x)[4]))
+
+        const currentNameIndex = getNames.indexOf(firstNameRef.current.value)
+
+        const staffSchedule = schedules.map(x=> {
+            return x[firstNameRef.current.value]
+        })
+
+            // console.log(staffSchedule[currentNameIndex])
+
+        try{
+            const daysArray = staffSchedule[currentNameIndex]
+
+            if (daysArray.length <1 || daysArray===undefined){
+                setarrEmpty(true)
+            }else{
+                setarrEmpty(false)
+            }
+        }catch(err){
+            console.log(err)
+            setarrEmpty(true)
+        }
+
+
+            if(arrEmpty){
+                // update
+                setisEmpty(false)
+
+                updateSchedule(
+                    firstNameRef.current.value,
+                    lastNameRef.current.value,
+                    emailRef.current.value,
+                    cellValue,
+                    timeHandle,
+                    setisPosted,
+                    setResponse
+                )
+
+            }else{
+                // post
+                setisEmpty(true)
+                postSchedule(
+                    firstNameRef.current.value,
+                    lastNameRef.current.value,
+                    emailRef.current.value,
+                    cellValue,
+                    timeHandle,
+                    setisPosted,
+                    setResponse
+                )
+            }
+
+            // firstNameRef.current.value = ""
+            // lastNameRef.current.value = ""
+            // emailRef.current.value =""
+
         console.log(cellValue);
 
         console.log(timeHandle)
 
+        console.log(Response)
+
         setTimeHandle([])
         setisTimeInArray(false)
+
 
 
         // disable save button once data is entered
@@ -82,17 +163,34 @@ function StaffSchedule(){
       
       return(
         <div>
+            <div className="staff-input-container">
+
+                <p><input ref={firstNameRef} placeholder="First Name" className="" id=""></input></p>
+                <p><input ref={lastNameRef} placeholder="Last Name" className="" id=""></input></p>
+                <input ref={emailRef} placeholder="Email Address" className="" id=""></input>
+            </div>
            
            <p> 
             Not available on weekends? <input className="checkAvail" onClick={disableWeekends} type="checkbox" 
             id="weekends-available" name="Something"></input>
            </p>
            <p className="inArray-message">{isTimeInArray? existsMessage:""}</p>
-            <div id="time-button-container">
+            <div className="time-button-container" id="time-button-container">
                 {timeHandle.map((x, index)=>
                 <button className="time-buttons fa fa-close" key={index}>{x}</button>)}
                 
             </div>
+            <div className="message-container">
+                {Response.status===0? 
+                <div className="error-message">
+                    <strong>{Response.message}</strong>
+                </div>:
+                Response.status===1? 
+                <div className="success-message">
+                   <strong>Saved {Response.message}fully</strong>
+                </div>: ""}
+            </div>
+
                 <table id="cal-table" key={"table"}>
                 <tbody key={"body"}>
             

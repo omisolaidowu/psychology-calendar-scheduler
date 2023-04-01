@@ -30,7 +30,7 @@ const handlesubmit = (
           staff,
           last_name,
           selectedEmail,
-          dateSelected[2],
+          Number(dateSelected[2]).toString(),
           time,
           setisSubmitted
       )
