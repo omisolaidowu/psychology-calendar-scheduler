@@ -26,6 +26,7 @@ function StaffSchedule(){
     const [Response, setResponse] = useState([])
     const [isEmpty, setisEmpty] = useState(false)
     const [arrEmpty, setarrEmpty] = useState(false)
+    const [arrDate, setarrDate] = useState([])
 
     
 
@@ -41,6 +42,7 @@ function StaffSchedule(){
             )
         
         return () => {
+            
           abortController.abort()
         }
           
@@ -60,23 +62,30 @@ function StaffSchedule(){
 
             // console.log(staffSchedule[currentNameIndex])
 
-        try{
             const daysArray = staffSchedule[currentNameIndex]
 
-            if (daysArray.length <1 || daysArray===undefined){
-                setarrEmpty(true)
-            }else{
-                setarrEmpty(false)
+       
+            
+            if (daysArray===undefined){
+                // setarrEmpty(true)
+                
+                setisEmpty(true)
+                postSchedule(
+                    firstNameRef.current.value,
+                    lastNameRef.current.value,
+                    emailRef.current.value,
+                    cellValue,
+                    timeHandle,
+                    setisPosted,
+                    setResponse
+                )
+
+                setTimeHandle([])
+                
+                console.log("Go", daysArray===undefined)
             }
-        }catch(err){
-            console.log(err)
-            setarrEmpty(true)
-        }
-
-
-            if(arrEmpty){
-                // update
-                setisEmpty(false)
+            else if(daysArray.length<1){
+                // setarrEmpty(false)
 
                 updateSchedule(
                     firstNameRef.current.value,
@@ -88,10 +97,10 @@ function StaffSchedule(){
                     setResponse
                 )
 
+                setTimeHandle([])
+                console.log("Elseif",daysArray.length)
             }else{
-                // post
-                setisEmpty(true)
-                postSchedule(
+                updateSchedule(
                     firstNameRef.current.value,
                     lastNameRef.current.value,
                     emailRef.current.value,
@@ -100,19 +109,13 @@ function StaffSchedule(){
                     setisPosted,
                     setResponse
                 )
+
+                setTimeHandle([])
+                console.log("Else",daysArray.length)
             }
 
-            // firstNameRef.current.value = ""
-            // lastNameRef.current.value = ""
-            // emailRef.current.value =""
 
-        console.log(cellValue);
-
-        console.log(timeHandle)
-
-        console.log(Response)
-
-        setTimeHandle([])
+        
         setisTimeInArray(false)
 
 
@@ -180,8 +183,12 @@ function StaffSchedule(){
                 <button className="time-buttons fa fa-close" key={index}>{x}</button>)}
                 
             </div>
+
+            
             <div className="message-container">
-                {Response.status===0? 
+            
+                {isPosted ? <div className="spin error-message success-message"></div>:
+                Response.status===0? 
                 <div className="error-message">
                     <strong>{Response.message}</strong>
                 </div>:
@@ -189,6 +196,7 @@ function StaffSchedule(){
                 <div className="success-message">
                    <strong>Saved {Response.message}fully</strong>
                 </div>: ""}
+                
             </div>
 
                 <table id="cal-table" key={"table"}>

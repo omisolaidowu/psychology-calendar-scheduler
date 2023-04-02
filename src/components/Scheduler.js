@@ -301,21 +301,7 @@ function Home(){
           )
           setistimeChanged(true)
 
-          // setisSubmitted(false)
-
           console.log(timeBind)
-
-
-
-        
-        // let currTimeIndex = timeBind.indexOf(timeRef.current.value)
-
-        // let x = timeBind.splice(currTimeIndex, 1)
-
-
-        // console.log(availableDays)
-
-        // console.log(startDate.toLocaleString('en-us').split("/")[1])
 
         if(timeBind.length<1){
           setisDateGone(true)
@@ -404,10 +390,22 @@ function Home(){
 
       isPresent && todaysDay.getMonth() !== currentDay.getMonth()?"":
 
-      isPresent && <input type="text" ref={dateRef} required contentEditable
+      isPresent && <input className="date-writer" type="text" ref={dateRef} required contentEditable
        value={isStaffChange ? 
         startDate.toISOString().split("T")[0].replace("/", "-").replace("/", "-"):""}/>
       }</p>
+
+{
+      isPresent && todaysDay.getMonth() !== currentDay.getMonth()? "":
+
+      isSubmitted? <button className="schedule-button disabled" disabled type='submit'>
+        <div className="spin"></div>Schedule</button>:
+      
+      isPresent && <button className="schedule-button" type='submit'>Schedule</button>
+      
+      }
+      
+      </form>
 
 
       <div>
@@ -431,18 +429,6 @@ function Home(){
       <div className="time-message-success">
         
       </div>
-
-      {
-      isPresent && todaysDay.getMonth() !== currentDay.getMonth()? "":
-
-      isSubmitted? <button className="schedule-button" disabled type='submit'>
-        <div className="spin"></div>Schedule</button>:
-      
-      isPresent && <button className="schedule-button" type='submit'>Schedule</button>
-      
-      }
-      
-      </form>
       
     </div>}
 

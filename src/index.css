@@ -143,9 +143,28 @@ body{
     color: white;
 }
 
-.schedule-button{
+.schedule-button, 
+.time-seletor-select, 
+.date-writer,
+.staff-selector{
     width: 100px;
     height: 25px;
+    text-align: center;
+    color:white;
+    font-size: large;
+    background-color: #042b35;
+    border-radius: 10%;
+
+    border-style: solid;
+    border-color: cadetblue;
+    border-width: 1px 3px 3px 1px;
+    box-shadow: 2px 2px 2px #888888;
+    
+}
+
+.time-seletor-select, 
+.staff-selector{
+  width: 270px;
 }
 
 
@@ -269,6 +288,7 @@ body{
     position:fixed;
     top:10px;
     background-color: white;
+    margin-left: 10px;
 
 }
 
