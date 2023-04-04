@@ -25,7 +25,8 @@ function StaffSchedule(){
     const [isPosted, setisPosted] = useState(false)
     const [Response, setResponse] = useState([])
     const [isEmpty, setisEmpty] = useState(false)
-    const [timeData, settimeData] = useState([])
+    const [timeMessage, settimeMessage] = useState("")
+    const [isTime, setisTime] = useState(false)
     const [isSaved, setisSaved] = useState(true)
     
     useEffect(()=>{
@@ -63,6 +64,13 @@ function StaffSchedule(){
         const staffSchedule = schedules.map(x=> {
             return x[firstNameRef.current.value]
         })
+
+        console.log(timeHandle.length)
+
+
+        if(timeHandle.length >=1){
+
+            setisTime(true)
 
 
             const daysArray = staffSchedule[currentNameIndex]
@@ -114,6 +122,10 @@ function StaffSchedule(){
                 
                 console.log("Else",daysArray.length)
             }
+        }else{
+            setisTime(false)
+            settimeMessage("You cannot submit blank times")
+        }
 
         setisTimeInArray(false)
 
@@ -184,8 +196,13 @@ function StaffSchedule(){
 
             
             <div className="message-container">
+
+                
             
-                {isPosted ? <div className="spin error-message success-message"></div>:
+                {
+                !isTime? <div className="error-message">{timeMessage}</div>:
+                
+                isPosted ? <div className="spin error-message success-message"></div>:
                 Response.status===0? 
                 <div className="error-message">
                     <strong>{Response.message}</strong>
