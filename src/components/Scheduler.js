@@ -56,7 +56,7 @@ function Home(){
 
     // const [timeSelected, setSelectedTimes] = useState(false)
 
-    const [removedMessage, setremovedMessage] = useState([])
+    const [isdateChanged, setisdateChanged] = useState(true)
     const [isTimePicked, setisTimePicked] = useState(false)
 
 
@@ -75,10 +75,6 @@ function Home(){
 
     const [fetchError, setfetchError] = useState("")
 
-
-
-
-
     let currentDay = new Date()
     let todaysDay = new Date(startDate)
 
@@ -90,7 +86,7 @@ function Home(){
       
         getData(setSchedules, setfetchError, setisFetched, setisLoaded)
     
-      
+        setisdateChanged(false)
       
       
       return () => {
@@ -99,11 +95,15 @@ function Home(){
       }
         
         
-    }, [isTimePicked])
+    }, [isTimePicked, isdateChanged])
 
     
 
     const handlestaffchange = useCallback(() =>{
+
+      setisdateChanged(true)
+
+
 
       setisStaffSelected(true)
 
@@ -149,9 +149,6 @@ function Home(){
          }
         
       });
-
-      // console.log(x)
-
 
      // Below gets the dates highlighted for chosen staff:
       if (days.length !==undefined){

@@ -1,5 +1,5 @@
 import schedular from "../calendar/staffSchedular";
-import {useRef, useState, useEffect } from "react";
+import {useRef, useState, useEffect, useCallback} from "react";
 import getData from "../fetch-data/fetch.data";
 
 import postSchedule from "../fetch-data/post.schedule";
@@ -25,14 +25,13 @@ function StaffSchedule(){
     const [isPosted, setisPosted] = useState(false)
     const [Response, setResponse] = useState([])
     const [isEmpty, setisEmpty] = useState(false)
-    const [arrEmpty, setarrEmpty] = useState(false)
-    const [arrDate, setarrDate] = useState([])
-
+    const [timeData, settimeData] = useState([])
+    const [isSaved, setisSaved] = useState(true)
     
-
     useEffect(()=>{
 
         const abortController = new AbortController()
+        
         setmonthCal(schedular())
         getData(
             setSchedules, 
@@ -40,17 +39,22 @@ function StaffSchedule(){
             setisFetched, 
             setisLoaded
             )
-        
-        return () => {
-            
-          abortController.abort()
-        }
-          
-          
-      }, [isdeleted])
 
-      const saveAction=(cellValue)=>{
+            setisSaved(false)
+        
+        // console.log("Times:", timeData)
+        return () => {
+            abortController.abort()
+            // stop the query by aborting on the AbortController on unmount
+          }
+          
+      }, [isSaved])
+
+      const saveAction=useCallback((cellValue)=>{
         //Todo: Post data from table to database
+
+        setisSaved(true)
+
 
         const getNames = (schedules.map(x=>Object.keys(x)[4]))
 
@@ -60,14 +64,10 @@ function StaffSchedule(){
             return x[firstNameRef.current.value]
         })
 
-            // console.log(staffSchedule[currentNameIndex])
 
             const daysArray = staffSchedule[currentNameIndex]
 
-       
-            
             if (daysArray===undefined){
-                // setarrEmpty(true)
                 
                 setisEmpty(true)
                 postSchedule(
@@ -83,9 +83,7 @@ function StaffSchedule(){
                 setTimeHandle([])
                 
                 console.log("Go", daysArray===undefined)
-            }
-            else if(daysArray.length<1){
-                // setarrEmpty(false)
+            }else if(daysArray.length<1){
 
                 updateSchedule(
                     firstNameRef.current.value,
@@ -98,8 +96,10 @@ function StaffSchedule(){
                 )
 
                 setTimeHandle([])
+                
                 console.log("Elseif",daysArray.length)
             }else{
+                
                 updateSchedule(
                     firstNameRef.current.value,
                     lastNameRef.current.value,
@@ -111,18 +111,16 @@ function StaffSchedule(){
                 )
 
                 setTimeHandle([])
+                
                 console.log("Else",daysArray.length)
             }
 
-
-        
         setisTimeInArray(false)
 
 
 
         // disable save button once data is entered
-      }
-
+      }, [timeHandle, schedules])
 
       const deleteAction=(cellValue)=>{
 
