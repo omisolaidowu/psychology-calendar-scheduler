@@ -1,5 +1,7 @@
 import {useRef, useState, useEffect } from "react";
 
+import { NavLink } from 'react-router-dom'
+
 import DatePicker from "react-datepicker";
 
 import MyContainer from '../calendar/calendarContainer';
@@ -14,7 +16,7 @@ import handlesubmit from '../handles/submitHandler';
 import image from "../public/Art_of_a_boy_standing_on_a_platform.jpg"
 
 import getData from "../fetch-data/fetch.data";
-import  removeTimeDate from "../fetch-data/remove.fetch";
+
 
 
 
@@ -75,6 +77,9 @@ function Home(){
 
     const [fetchError, setfetchError] = useState("")
 
+    const [token, setToken] = useState('');
+    const [first_name, setFirst_Name] = useState('')
+
     let currentDay = new Date()
     let todaysDay = new Date(startDate)
 
@@ -87,6 +92,10 @@ function Home(){
         getData(setSchedules, setfetchError, setisFetched, setisLoaded)
     
         setisdateChanged(false)
+        const storedToken = sessionStorage.getItem('access_token');
+        const user_name = sessionStorage.getItem('first_name')
+        setToken(storedToken);
+        setFirst_Name(user_name)
       
       
       return () => {
@@ -322,18 +331,42 @@ function Home(){
       
       })
 
-      
-
-      
-      
     
     return(
+
         
-        <div>
+  <div>
+      <NavLink to="/" className="home-nav"><h1>Psyche Mega Therapy</h1></NavLink>
+
+    <div>{!token? 
+          <div className="landing-container">
+            <div className="buttons-container">
+              <NavLink to="/login-page" className="button login-button">
+                Login
+              </NavLink>
+              <NavLink to="/#" className="button register-button">
+                Register
+              </NavLink>
+            </div>
+          </div>:
+      
+        <div className="dropdown">
+            <button className="dropbtn fa fa-caret-down">{first_name}</button>
+                <div className="dropdown-content">
+                    <NavLink to="/book-a-meeting">Book a Meeting</NavLink>
+                    <NavLink to="/logout">Service Quotes</NavLink>
+                    <NavLink to="/logout" className="button login-button">Logout</NavLink>
+                </div>
+                
+        </div>
+        }
+        </div>
 
           <h2>Schedule a meeting with us today!</h2>
 
           {!isFetched? <>{fetchError}</>:
+
+          
 
 
 
@@ -342,7 +375,7 @@ function Home(){
         {schedules.map((x, i)=><option key={i}>{Object.keys(x)[4]}</option>)}
 </select>}
 
-<div className="image-container"><img alt="idowu" className="background" src={image} /></div>
+{/* <div className="image-container"><img alt="idowu" className="background" src={image} /></div> */}
 
      {isStaff && isDay ?
      
