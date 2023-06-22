@@ -199,6 +199,40 @@ h2{
     }
   }
 
+  /* schedule-spin */
+
+  .schedule-spin {
+    border: 5px solid #c6d3e7;
+    border-radius: 50%;
+    border-top: 4px solid #b5c6df;
+    border-right: 4px solid #bed0e8;
+    border-bottom: 4px solid #b3c6e0;
+    border-left: 4px solid #C9E0FF;
+    width: 100px;
+    height: 100px;
+    margin-left: 40%;
+    margin-top: 150px;
+    position: relative;
+    -webkit-animation: spin 1.5s linear infinite;
+    animation: spin 1.5s linear infinite;
+  }
+  @-webkit-keyframes schedule-spin {
+    0% {
+      -webkit-transform: rotate(0deg);
+    }
+    100% {
+      -webkit-transform: rotate(360deg);
+    }
+  }
+  @keyframes schedule-spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
 
   table {
     font-family: arial, sans-serif;
@@ -587,6 +621,12 @@ h2{
   color: #b15068;
 }
 
+/* Thumbs up */
+
+.fa-thumbs-up{
+font-size:100px;
+color:green;
+}
 
 
 

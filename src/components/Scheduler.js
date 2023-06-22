@@ -78,7 +78,11 @@ function Home(){
     const [fetchError, setfetchError] = useState("")
 
     const [token, setToken] = useState('');
+
+    const [isToken, setisToken] = useState(true)
     const [first_name, setFirst_Name] = useState('')
+    const [isSelectClicked, setIsSelectClicked] = useState(false);
+
 
     let currentDay = new Date()
     let todaysDay = new Date(startDate)
@@ -87,9 +91,9 @@ function Home(){
     useEffect(()=>{
 
       const abortController = new AbortController()
-
       
-        getData(setSchedules, setfetchError, setisFetched, setisLoaded)
+      getData(setSchedules, setfetchError)
+      setisLoaded(true)
     
         setisdateChanged(false)
         const storedToken = sessionStorage.getItem('access_token');
@@ -105,17 +109,16 @@ function Home(){
         
         
     }, [isTimePicked, isdateChanged])
-
-
-    
-
     
 
     const handlestaffchange = useCallback(() =>{
+      setIsSelectClicked(true)
+
+      if(!token){
+        setisToken(false)
+      }
 
       setisdateChanged(true)
-
-
 
       setisStaffSelected(true)
 
@@ -237,8 +240,6 @@ function Home(){
             data[currentDateIndex][date.toLocaleString('en-us').split("/")[1]]
             )
 
-            
-
             settimeBind(availtimes)
 
           // bind the time to a state: this takes thethe form ==> e.g data[0]["15"]:
@@ -259,8 +260,6 @@ function Home(){
         }else if(timeRef){
           setisForm(true)
         }
-        
-      
 
       })
 
@@ -364,20 +363,19 @@ function Home(){
 
           <h2>Schedule a meeting with us today!</h2>
 
-          {!isFetched? <>{fetchError}</>:
+  
 
-          
-
-
-
-<select defaultValue={'DEFAULT'} className="staff-selector" ref={staffRef} onChange={handlestaffchange}>
-      <option value="DEFAULT" disabled hidden>--Select a Therapist-- </option>
-        {schedules.map((x, i)=><option key={i}>{Object.keys(x)[4]}</option>)}
-</select>}
+  {!isLoaded? <div className="schedule-spin"></div>:
+        <select defaultValue={'DEFAULT'} className="staff-selector" ref={staffRef} onChange={handlestaffchange}>
+              <option value="DEFAULT" disabled hidden>--Select a Therapist-- </option>
+                {schedules.map((x, i)=><option key={i}>{Object.keys(x)[4]}</option>)}
+        </select>
+    }
+    {!isToken && <>Please <NavLink to="/login-page"><strong>Login</strong></NavLink> to book a meeting...</>}
 
 {/* <div className="image-container"><img alt="idowu" className="background" src={image} /></div> */}
 
-     {isStaff && isDay ?
+     {isStaff && isDay && isToken?
      
      <DatePicker className="calendar"
      inline
@@ -395,7 +393,7 @@ function Home(){
      showDisabledMonthNavigation
 
      highlightDates={!isDateGone && highlightmyDate(availableDays)}
-     />:!isStaff? "": "Staff unavailable for the day"
+     />:""
      }
         
         {isStaff && <div className='time-selector'>
@@ -431,31 +429,27 @@ function Home(){
 {
       isPresent && todaysDay.getMonth() !== currentDay.getMonth()? "":
 
-      isSubmitted? <button className="schedule-button disabled" disabled type='submit'>
-        <div className="spin"></div>Schedule</button>:
+      isSubmitted? <div><button className="schedule-button disabled" disabled type='submit'>
+        Schedule</button><div className="schedule-spin"></div></div>:
       
       isPresent && <button className="schedule-button" type='submit'>Schedule</button>
       
       }
       
       </form>
-
-
       <div>
         <strong> 
-          {
-          
-          status===1 && istimeChanged?
-          <div className="time-message-success">
-            {noTimeMessage}
-          </div>:
-          status===0?
-          <div className="time-message">
-            {noTimeMessage}
-          </div>:
-          
-          !istimeChanged && noTimeMessage
-          }
+        {isSelectClicked && status === 1 && istimeChanged ? (
+            <div className="time-message-success">
+              <li className="fa fa-thumbs-up"></li>
+              {noTimeMessage}
+            </div>
+          ) : 
+          (
+            status === 0 && (
+              <div className="time-message">{noTimeMessage}</div>
+            )
+      )}
         </strong>
       </div>
 
@@ -464,9 +458,6 @@ function Home(){
       </div>
       
     </div>}
-
-    
-
     
   </div>
     )
