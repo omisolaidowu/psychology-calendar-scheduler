@@ -83,6 +83,8 @@ function Home(){
     const [first_name, setFirst_Name] = useState('')
     const [isSelectClicked, setIsSelectClicked] = useState(false);
 
+    const [laststaffName, setstafflastName] = useState('')
+
 
     let currentDay = new Date()
     let todaysDay = new Date(startDate)
@@ -126,9 +128,9 @@ function Home(){
 
       const getNames = (schedules.map(x=>Object.keys(x)[4]))
 
-      const currentNameIndex = getNames.indexOf(staffRef.current.value)
+      const staffFirst = staffRef.current.value.split(" ")
 
-
+      const currentNameIndex = getNames.indexOf(staffFirst[0])
       if (timeBind.length <1){
         setisTimePicked(true)
       }
@@ -145,9 +147,7 @@ function Home(){
       // console.log(currentNameIndex)
 
       const days = schedules.map((x)=>  
-      x[staffRef.current.value])[currentNameIndex]
-
-
+      x[staffFirst[0]])[currentNameIndex]
 
       // const x = 
       // days.map((i, x)=> console.log(i))
@@ -214,13 +214,15 @@ function Home(){
 
         // get the index of the chosen staff as per the name key:
 
+        const staffFirst = staffRef.current.value.split(" ")
+
         const getNames = (schedules.map(x=>Object.keys(x)[4]))
 
-        const currentNameIndex = getNames.indexOf(staffRef.current.value)
+        const currentNameIndex = getNames.indexOf(staffFirst[0])
         
 
         // use the current staff index to filter the available times for the chosen staff:
-        const data = schedules.map((x, i)=> x[staffRef.current.value])[currentNameIndex]
+        const data = schedules.map((x, i)=> x[staffFirst[0]])[currentNameIndex]
 
 
         // filter the available times by their keys at index 0 to get the staff time array:
@@ -295,7 +297,7 @@ function Home(){
         }
 
         else{
-
+          const staffFirst = staffRef.current.value.split(" ")
 
           // setisSubmitted(true)
           handlesubmit(
@@ -303,7 +305,7 @@ function Home(){
             setStatus,
             timeRef.current.value,
             dateRef.current.value,
-            staffRef.current.value,
+            staffFirst[0],
             schedules,
             setisSubmitted
           )
@@ -368,7 +370,7 @@ function Home(){
   {!isLoaded? <div className="schedule-spin"></div>:
         <select defaultValue={'DEFAULT'} className="staff-selector" ref={staffRef} onChange={handlestaffchange}>
               <option value="DEFAULT" disabled hidden>--Select a Therapist-- </option>
-                {schedules.map((x, i)=><option key={i}>{Object.keys(x)[4]}</option>)}
+                {schedules.map((x, i)=><option key={i}>{Object.keys(x)[4]} {x.last_name}</option>)}
         </select>
     }
     {!isToken && <>Please <NavLink to="/login-page"><strong>Login</strong></NavLink> to book a meeting...</>}

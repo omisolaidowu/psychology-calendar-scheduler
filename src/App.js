@@ -30,9 +30,9 @@ function App(){
            <Switch>
             <Route exact strict path="/" component={LandingPage}/>
             
-            <GuestRoute exact strict path="/login-page"
+            <Route exact strict path="/login-page"
              component={LoginPage}
-             isAuthenticated = {token!==null}
+            //  isAuthenticated = {token!==null}
              />
             <Route exact strict 
             path="/book-a-meeting" 
