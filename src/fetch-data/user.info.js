@@ -13,7 +13,7 @@ const user_info=(token, setInfo)=>{
     redirect: 'follow'
     };
 
-    fetch("http://localhost:5000/api/user-info", requestOptions)
+    fetch("https://megapsyche-omisolaidowu.b4a.run/api/user-info", requestOptions)
     .then(response => response.text())
     .then(result => {
         

@@ -35,7 +35,7 @@ var requestOptions = {
 
 
   setisSubmitted(true)
-  let data = await fetch("http://localhost:5000/api/remove-selected-time", requestOptions)
+  let data = await fetch("https://megapsyche-omisolaidowu.b4a.run/api/remove-selected-time", requestOptions)
   .then(response =>  response.json())
   .then(result => {
     return (

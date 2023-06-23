@@ -210,8 +210,8 @@ h2{
     border-left: 4px solid #C9E0FF;
     width: 100px;
     height: 100px;
-    margin-left: 40%;
-    margin-top: 150px;
+    margin-left: 5%;
+    margin-top: 0px;
     position: relative;
     -webkit-animation: spin 1.5s linear infinite;
     animation: spin 1.5s linear infinite;
@@ -547,7 +547,9 @@ h2{
   display: block;
 }
 
-.dropdown-content a:hover {background-color: #f1f1f1}
+.dropdown-content a:hover {
+  background-color: #f1f1f1
+}
 
 .dropdown:hover .dropdown-content {
   display: block;
@@ -555,7 +557,8 @@ h2{
 
 
 .dropdown:hover .dropbtn {
-  background-color: #d9c1f5;
+  background-color: #494054;
+  color: rgb(249, 248, 248);
 
 }
 
@@ -597,7 +600,9 @@ h2{
   display: block;
 }
 
-.landing-dropdown-content a:hover {background-color: #f1f1f1}
+.landing-dropdown-content a:hover {
+  background-color: #f1f1f1
+}
 
 .landing-dropdown:hover .landing-dropdown-content {
   display: block;
@@ -605,7 +610,8 @@ h2{
 
 
 .landing-dropdown:hover .landing-dropbtn {
-  background-color: #d9c1f5;
+  background-color: #494054;
+  color: rgb(249, 248, 248);
 
 }
 

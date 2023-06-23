@@ -94,7 +94,7 @@ function Home(){
 
       const abortController = new AbortController()
       
-      getData(setSchedules, setfetchError)
+      getData(setSchedules, setfetchError, setisLoaded)
       setisLoaded(true)
     
         setisdateChanged(false)
@@ -115,6 +115,7 @@ function Home(){
 
     const handlestaffchange = useCallback(() =>{
       setIsSelectClicked(true)
+      setisLoaded(true)
 
       if(!token){
         setisToken(false)
@@ -370,7 +371,12 @@ function Home(){
   {!isLoaded? <div className="schedule-spin"></div>:
         <select defaultValue={'DEFAULT'} className="staff-selector" ref={staffRef} onChange={handlestaffchange}>
               <option value="DEFAULT" disabled hidden>--Select a Therapist-- </option>
-                {schedules.map((x, i)=><option key={i}>{Object.keys(x)[4]} {x.last_name}</option>)}
+                {
+                !isLoaded ? <div className="spin"></div>
+                : 
+                schedules.map((x, i)=>
+                <option key={i}>{Object.keys(x)[4]} {x.last_name}</option>)
+                }
         </select>
     }
     {!isToken && <>Please <NavLink to="/login-page"><strong>Login</strong></NavLink> to book a meeting...</>}

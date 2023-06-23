@@ -41,7 +41,7 @@ function LoginPage() {
       body: raw,
     };
   
-     fetch("http://localhost:5000/api/login", requestOptions)
+     fetch("https://megapsyche-omisolaidowu.b4a.run/api/login", requestOptions)
       .then(response => {
         if (response.ok) {
           return response.json();

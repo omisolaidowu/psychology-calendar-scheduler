@@ -30,7 +30,7 @@ var requestOptions = {
 
 setisPosted(true)
 
-fetch("http://localhost:5000/api/create-schedule", requestOptions)
+fetch("https://megapsyche-omisolaidowu.b4a.run/api/create-schedule", requestOptions)
   .then(response => response.json())
   .then(result => { 
     return (

@@ -16,7 +16,7 @@ var requestOptions = {
   redirect: 'follow'
 };
 
-fetch("http://localhost:5000/api/delete-token", requestOptions)
+fetch("https://megapsyche-omisolaidowu.b4a.run/api/delete-token", requestOptions)
   .then(response => response.text())
   .then(result => {
     console.log(result)

@@ -28,7 +28,7 @@ var requestOptions = {
 
 
 setisPosted(true)
-fetch("http://localhost:5000/api/update-schedule", requestOptions)
+fetch("https://megapsyche-omisolaidowu.b4a.run/api/update-schedule", requestOptions)
   .then(response => response.json())
   .then(result => { 
     return (
