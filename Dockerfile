@@ -1,5 +1,5 @@
 # Base image
-FROM node:18
+FROM node:latest
 
 # Set the working directory
 WORKDIR /app
@@ -14,7 +14,7 @@ RUN npm install --force
 COPY . .
 
 # Build the React app
-RUN npm run build
+RUN npm run build --force
 
 # Expose the port
 EXPOSE 3000

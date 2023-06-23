@@ -8,6 +8,13 @@ import RoleBasedRoute from "./HOCs/allowedroutes";
 import GuestRoute from "./HOCs/guest";
 import LandingPage from "./components/Landingpage";
 import Logout from "./components/Logout";
+import Parse from "parse/dist/parse.min.js";
+
+const app_id = process.env.APPLICATION_ID
+const js_id = process.env.JAVASCRIPT_KEY
+
+Parse.initialize(app_id, js_id);
+Parse.serverURL = "https://parseapi.back4app.com/";
 
 
 function App(){
