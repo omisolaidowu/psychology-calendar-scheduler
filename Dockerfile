@@ -8,19 +8,13 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies
-RUN npm install
+RUN npm install --force
 
 # Copy the application code
 COPY . .
 
 # Build the React app
 RUN npm run build
-
-RUN npm install -g npm@latest
-
-RUN npm cache clean --force
-
-RUN npm install --force
 
 # Expose the port
 EXPOSE 3000
