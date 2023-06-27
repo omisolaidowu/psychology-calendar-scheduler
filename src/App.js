@@ -9,6 +9,7 @@ import GuestRoute from "./HOCs/guest";
 import LandingPage from "./components/Landingpage";
 import Logout from "./components/Logout";
 import Parse from "parse/dist/parse.min.js";
+import SuperAdminComponent from "./components/SuperAdmin";
 
 const app_id = process.env.APPLICATION_ID
 const js_id = process.env.JAVASCRIPT_KEY
@@ -50,6 +51,13 @@ function App(){
             path="/admin-console" 
             component={StaffSchedule}
             allowedRoles={['super-admin', 'admin']}
+            userRole={userRole}
+            />
+
+            <RoleBasedRoute exact strict 
+            path="/superadmin-console" 
+            component={SuperAdminComponent}
+            allowedRoles={['super-admin']}
             userRole={userRole}
             />
             <Route exact strict path="/logout" component={Logout}/>

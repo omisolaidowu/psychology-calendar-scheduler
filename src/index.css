@@ -636,6 +636,78 @@ color:green;
 
 
 
+/* Super-admin */
+
+.super-admin-container {
+  margin: 20px;
+}
+
+.search-input {
+  width: 300px;
+  height: 30px;
+  margin-bottom: 20px;
+}
+
+.user-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.user-table th,
+.user-table td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ccc;
+  background-color: #ecf4ec;
+}
+
+.user-table th {
+  background-color: #f2f2f2;
+}
+
+.user-table tr:last-child td {
+  border-bottom: none;
+}
+
+.status-select {
+  width: 120px;
+}
+
+.actions-btns {
+  display: flex;
+  gap: 10px;
+}
+
+.confirm-edit-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.confirm-edit-popup .popup-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.confirm-edit-popup .popup-content h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.confirm-edit-popup .popup-content button {
+  margin-right: 10px;
+}
+
+
+
+
 
 
 
