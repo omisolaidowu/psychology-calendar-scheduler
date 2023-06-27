@@ -19,7 +19,7 @@ var requestOptions = {
 
 setisupdated(false)
 
-fetch("http://localhost:5000/api/update-to-admin", requestOptions)
+fetch("https://megapsyche-omisolaidowu.b4a.run/api/update-to-admin", requestOptions)
   .then(response => response.text())
   .then(result => {
     return(

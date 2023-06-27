@@ -6,7 +6,7 @@ var requestOptions = {
     redirect: 'follow'
   };
   
-  fetch("http://localhost:5000/api/all-users", requestOptions)
+  fetch("https://megapsyche-omisolaidowu.b4a.run/api/all-users", requestOptions)
     .then(response => response.json())
     .then(result => {
         return (
