@@ -50,7 +50,9 @@ function StaffSchedule(){
 
         const access_token = sessionStorage.getItem("access_token")
 
-        user_info(access_token, setuserInfo)
+        user_info(access_token, (data) => {
+            setuserInfo(JSON.parse(data));
+          });
 
         
 
@@ -62,7 +64,7 @@ function StaffSchedule(){
             // stop the query by aborting on the AbortController on unmount
           }
           
-      }, [isSaved, userInfo])
+      }, [isSaved])
       
 
       const saveAction=useCallback((cellValue)=>{
@@ -73,25 +75,17 @@ function StaffSchedule(){
             settimeMessage("Your session has expired, please login again")
         }else{
 
-        const userarray = JSON.parse(userInfo)
-
-        
-
-        // var array = Array.from(userInfo)
-        
-        
-
-
+        // const userarray = JSON.parse(userInfo)
 
         setisSaved(true)
 
 
         const getNames = (schedules.map(x=>Object.keys(x)[4]))
 
-        const currentNameIndex = getNames.indexOf(userarray.first_name)
+        const currentNameIndex = getNames.indexOf(userInfo.first_name)
 
         const staffSchedule = schedules.map(x=> {
-            return x[userarray.first_name]
+            return x[userInfo.first_name]
         })
 
         console.log(timeHandle.length)
@@ -111,9 +105,9 @@ function StaffSchedule(){
                 
                 setisEmpty(true)
                 postSchedule(
-                    userarray.first_name,
-                    userarray.last_name,
-                    userarray.email,
+                    userInfo.first_name,
+                    userInfo.last_name,
+                    userInfo.email,
                     cellValue,
                     timeHandle,
                     setisPosted,
@@ -126,9 +120,9 @@ function StaffSchedule(){
             }else if(daysArray.length<1){
 
                 updateSchedule(
-                    userarray.first_name,
-                    userarray.last_name,
-                    userarray.email,
+                    userInfo.first_name,
+                    userInfo.last_name,
+                    userInfo.email,
                     cellValue,
                     timeHandle,
                     setisPosted,
@@ -141,9 +135,9 @@ function StaffSchedule(){
             }else{
                 
                 updateSchedule(
-                    userarray.first_name,
-                    userarray.last_name,
-                    userarray.email,
+                    userInfo.first_name,
+                    userInfo.last_name,
+                    userInfo.email,
                     cellValue,
                     timeHandle,
                     setisPosted,
@@ -209,6 +203,16 @@ function StaffSchedule(){
       return(
         <div>
             <NavLink to="/" className="home-nav"><h1>Psyche Mega Therapy</h1></NavLink>
+
+            <div className="dropdown">
+            <button className="dropbtn fa fa-caret-down">{userInfo.first_name}</button>
+                <div className="dropdown-content">
+                    <NavLink to="/book-a-meeting">Book a Meeting</NavLink>
+                    <NavLink to="/logout">Service Quotes</NavLink>
+                    <NavLink to="/logout" className="button login-button">Logout</NavLink>
+                </div>
+                
+            </div>
            
            <p> 
             Not available on weekends? <input className="checkAvail" onClick={disableWeekends} type="checkbox" 
@@ -243,8 +247,6 @@ function StaffSchedule(){
 
                 <table id="cal-table" className="cal-table" key={"table"}>
                 <tbody className="t-body" key={"body"}>
-            
-            
             
                 <tr key={0}>
                     <th key={1}>Days</th>

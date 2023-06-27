@@ -28,24 +28,23 @@ function App(){
     ? 'user'
     :'';
 
-    const token = sessionStorage.getItem('access_token')
+    const isAuthenticated = sessionStorage.getItem('access_token')
 
 
     return(
     <Router>
         <Suspense fallback={<div>Please wait...</div>}>
            <Switch>
-            <Route exact strict path="/" component={LandingPage}/>
+            <Route exact strict path="/" 
+            component={LandingPage}
+            />
             
             <Route exact strict path="/login-page"
              component={LoginPage}
-            //  isAuthenticated = {token!==null}
              />
             <Route exact strict 
             path="/book-a-meeting" 
             component={Home}
-            // allowedRoles={['super-admin', 'admin', 'user']}
-            // userRole={userRole}
             />
             <RoleBasedRoute exact strict 
             path="/admin-console" 

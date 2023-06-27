@@ -17,8 +17,7 @@ import image from "../public/Art_of_a_boy_standing_on_a_platform.jpg"
 
 import getData from "../fetch-data/fetch.data";
 
-
-
+import user_info from "../fetch-data/user.info";
 
 function Home(){
 
@@ -71,8 +70,6 @@ function Home(){
 
     const [isSubmitted, setisSubmitted] = useState(false)
 
-    const [isFetched, setisFetched] = useState(false)
-
     const [isStaffSelected, setisStaffSelected] = useState(false)
 
     const [fetchError, setfetchError] = useState("")
@@ -80,11 +77,10 @@ function Home(){
     const [token, setToken] = useState('');
 
     const [isToken, setisToken] = useState(true)
-    const [first_name, setFirst_Name] = useState('')
+  
     const [isSelectClicked, setIsSelectClicked] = useState(false);
 
-    const [laststaffName, setstafflastName] = useState('')
-
+    const [userInfo, setuserInfo] = useState([])
 
     let currentDay = new Date()
     let todaysDay = new Date(startDate)
@@ -99,10 +95,12 @@ function Home(){
     
         setisdateChanged(false)
         const storedToken = sessionStorage.getItem('access_token');
-        const user_name = sessionStorage.getItem('first_name')
+        
         setToken(storedToken);
-        setFirst_Name(user_name)
-      
+
+        user_info(storedToken, (data) => {
+          setuserInfo(JSON.parse(data));
+        });
       
       return () => {
         abortController.abort()
@@ -111,6 +109,7 @@ function Home(){
         
         
     }, [isTimePicked, isdateChanged])
+
     
 
     const handlestaffchange = useCallback(() =>{
@@ -353,7 +352,7 @@ function Home(){
           </div>:
       
         <div className="dropdown">
-            <button className="dropbtn fa fa-caret-down">{first_name}</button>
+            <button className="dropbtn fa fa-caret-down">{userInfo.first_name}</button>
                 <div className="dropdown-content">
                     <NavLink to="/book-a-meeting">Book a Meeting</NavLink>
                     <NavLink to="/logout">Service Quotes</NavLink>
@@ -365,6 +364,8 @@ function Home(){
         </div>
 
           <h2>Schedule a meeting with us today!</h2>
+
+          
 
   
 

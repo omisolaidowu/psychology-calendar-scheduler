@@ -62,7 +62,6 @@ function LoginPage() {
           }else{
             sessionStorage.setItem("access_token", result.access_token)
             sessionStorage.setItem("role", result.role)
-            sessionStorage.setItem("first_name", result.first_name)
             redirect.goBack()
           }
             

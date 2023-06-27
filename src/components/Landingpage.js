@@ -1,15 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom'
+import user_info from '../fetch-data/user.info';
 
 const LandingPage = () => {
   const [token, setToken] = useState('');
-  const [first_name, setFirst_Name] = useState('')
+  const [userInfo, setuserInfo] = useState([])
 
   useEffect(() => {
     const storedToken = sessionStorage.getItem('access_token');
-    const user_name = sessionStorage.getItem('first_name')
     setToken(storedToken);
-    setFirst_Name(user_name)
+
+    user_info(storedToken, (data) => {
+      setuserInfo(JSON.parse(data));
+    });
+
+    
+    
   }, []);
 
   if (!token) {
@@ -33,7 +39,7 @@ const LandingPage = () => {
         <h1 className='login-title'>Psyche Mega Therapy</h1>
         <div className="landing-dropdown">
             
-            <button className="landing-dropbtn fa fa-caret-down">{first_name}</button>
+            <button className="landing-dropbtn fa fa-caret-down">{userInfo.first_name}</button>
             <div className="landing-dropdown-content">
                 <NavLink to="/book-a-meeting">Book a Meeting</NavLink>
                 <NavLink to="#">Service Quotes</NavLink>
