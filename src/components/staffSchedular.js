@@ -33,6 +33,7 @@ function StaffSchedule(){
     const [isSaved, setisSaved] = useState(true)
 
     const [userInfo, setuserInfo] = useState([])
+    const [token, setToken] = useState('');
     
     useEffect(()=>{
 
@@ -49,6 +50,7 @@ function StaffSchedule(){
             setisSaved(false)
 
         const access_token = sessionStorage.getItem("access_token")
+        setToken(access_token)
 
         user_info(access_token, (data) => {
             setuserInfo(JSON.parse(data));
@@ -204,7 +206,19 @@ function StaffSchedule(){
         <div>
             <NavLink to="/" className="home-nav"><h1>Psyche Mega Therapy</h1></NavLink>
 
-            <div className="dropdown">
+            <div>{!token? 
+          <div className="landing-container">
+            <div className="buttons-container">
+              <NavLink to="/login-page" className="button login-button">
+                Login
+              </NavLink>
+              <NavLink to="/#" className="button register-button">
+                Register
+              </NavLink>
+            </div>
+          </div>:
+      
+        <div className="dropdown">
             <button className="dropbtn fa fa-caret-down">{userInfo.first_name}</button>
                 <div className="dropdown-content">
                     <NavLink to="/book-a-meeting">Book a Meeting</NavLink>
@@ -212,7 +226,9 @@ function StaffSchedule(){
                     <NavLink to="/logout" className="button login-button">Logout</NavLink>
                 </div>
                 
-            </div>
+        </div>
+        }
+        </div>
            
            <p> 
             Not available on weekends? <input className="checkAvail" onClick={disableWeekends} type="checkbox" 
