@@ -12,7 +12,7 @@ const SuperAdminComponent = () => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [currCellEmail, setcurrCellEmail] = useState('')
-  const [currCellAdminStatus, setCurrCellAdminStatus] = useState('')
+  const [currCellAdminStatus, setCurrCellAdminStatus] = useState('False')
   const [updateResponse, setUpdateResponse] = useState('')
 
   const [userInfo, setuserInfo] = useState([])
@@ -82,6 +82,8 @@ const [token, setToken] = useState('');
     update_admin(currCellAdminStatus, currCellEmail, setIsUpdated, setUpdateResponse)
 
     setIsConfirmed(true)
+
+    setCurrCellAdminStatus("False")
     
     setSelectedUser(null);
     setShowConfirmation(false);
@@ -94,7 +96,7 @@ const [token, setToken] = useState('');
 
   const handleInputChange = event => {
     const { name, value } = event.target;
-    console.log(event.target.value)
+   
     setCurrCellAdminStatus(event.target.value)
     setEditedUserData(prevState => ({
       ...prevState,
@@ -176,10 +178,11 @@ const [token, setToken] = useState('');
                     name="Is-Admin"
                     onChange={handleInputChange}
                     disabled={showConfirmation}
+                    defaultValue={'DEFAULT'}
                   >
-                    <option value={user.is_admin}>{user.is_admin}</option>
-                    {user.is_admin ==="True"? <option value="False">False</option>:
-                    user.is_admin ==="False"? <option value="True">True</option>:""}
+                    <option value="DEFAULT" disabled>---Edit role---</option>
+                    <option value="True">True</option>
+                    <option value="False">False</option>
                     
                   </select>
                 ) : (
@@ -195,10 +198,11 @@ const [token, setToken] = useState('');
                     onChange={handleInputChange}
                     disabled={showConfirmation}
                   >
-                    <option value="admin">{user.is_super_admin}</option>
                     
-                    {user.is_super_admin ==="True"? <option value="admin">False</option>:
-                    user.is_super_admin ==="True"? <option value="admin">True</option>:""}
+                    
+                    <option value="DEFAULT" disabled>---Edit role---</option>
+                    <option value="True">True</option>
+                    <option value="False">False</option>
                     
                   </select>
                 ) : (
