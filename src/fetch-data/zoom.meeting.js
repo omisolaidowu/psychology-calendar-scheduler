@@ -36,7 +36,7 @@ var requestOptions = {
 setisSubmitted(true)
 setisMeeting(true)
 
-fetch("http://localhost:5000/api/create-zoomlink", requestOptions)
+fetch("https://megapsyche-omisolaidowu.b4a.run/api/create-zoomlink", requestOptions)
   .then(response => response.json())
   .then(result => {return (
     setisSubmitted(false),
