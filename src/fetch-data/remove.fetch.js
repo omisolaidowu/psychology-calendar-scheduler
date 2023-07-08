@@ -39,9 +39,10 @@ var requestOptions = {
   .then(response =>  response.json())
   .then(result => {
     return (
+      setisSubmitted(false),
       setMessage(result["message"]),  
-      setStatus(result["status"],
-      setisSubmitted(false)
+      setStatus(result["status"]
+      
     ))
   })
   .catch(error => {

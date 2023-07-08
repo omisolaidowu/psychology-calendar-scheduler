@@ -1,23 +1,16 @@
 import {useRef, useState, useEffect } from "react";
-
 import { NavLink } from 'react-router-dom'
-
 import DatePicker from "react-datepicker";
-
 import MyContainer from '../calendar/calendarContainer';
-
 import "react-datepicker/dist/react-datepicker.css";
 import highlightmyDate from '../calendar/highlightedDaysLogic';
-
 import { useCallback } from 'react';
-
 import handlesubmit from '../handles/submitHandler';
-
-import image from "../public/Art_of_a_boy_standing_on_a_platform.jpg"
-
+// import image from "../public/Art_of_a_boy_standing_on_a_platform.jpg"
 import getData from "../fetch-data/fetch.data";
-
 import user_info from "../fetch-data/user.info";
+import zoom_meeting_submit from "../fetch-data/zoom.meeting";
+import moment from 'moment-timezone';
 
 function Home(){
 
@@ -26,6 +19,8 @@ function Home(){
   const dateRef = useRef()
 
   const staffRef = useRef()
+
+  const topicRef = useRef()
     
 
     const [startDate, setStartDate] = useState(new Date());
@@ -59,9 +54,6 @@ function Home(){
 
     const [isdateChanged, setisdateChanged] = useState(true)
     const [isTimePicked, setisTimePicked] = useState(false)
-
-
-
     const [isForm, setisForm] = useState(false)
 
     const [schedules, setSchedules] = useState([])
@@ -81,6 +73,20 @@ function Home(){
     const [isSelectClicked, setIsSelectClicked] = useState(false);
 
     const [userInfo, setuserInfo] = useState([])
+
+    const [selectedTherapist, setselectedTherapist] = useState([])
+
+    const [meetingData, setMeetingData] = useState([])
+
+    const [topicSelected, settopicSelected] = useState(false)
+
+    const [timeMeeting, setTimeMeeting] = useState('')
+
+    const [isMeetingSet, setisMeetingSet] = useState(false)
+
+
+    const [timeValue, setTimeValue] = useState("")
+    
 
     let currentDay = new Date()
     let todaysDay = new Date(startDate)
@@ -104,7 +110,6 @@ function Home(){
       
       return () => {
         abortController.abort()
-        // stop the query by aborting on the AbortController on unmount
       }
         
         
@@ -131,6 +136,11 @@ function Home(){
       const staffFirst = staffRef.current.value.split(" ")
 
       const currentNameIndex = getNames.indexOf(staffFirst[0])
+
+      const staff_data = schedules.map((x)=>{return (x)})
+
+      setselectedTherapist(staff_data[currentNameIndex])
+
       if (timeBind.length <1){
         setisTimePicked(true)
       }
@@ -143,14 +153,9 @@ function Home(){
 
       console.log(timeBind)
 
-
-      // console.log(currentNameIndex)
-
       const days = schedules.map((x)=>  
       x[staffFirst[0]])[currentNameIndex]
 
-      // const x = 
-      // days.map((i, x)=> console.log(i))
       days.forEach((element, index) => {
          if (Object.values(element)[0].length>=1){
 
@@ -189,8 +194,7 @@ function Home(){
       }
     })
     
-    
-      const handlechange = useCallback((date)=>{        
+      const handlechange = useCallback((date)=>{
 
         setStartDate(date)
 
@@ -198,19 +202,15 @@ function Home(){
 
         const timeString = startDate.toString().split(' ')
 
-        const scheduledTime = timeString[0]+" "+timeString[1]+" "+timeString[2]+" "+timeString[3]
+        const scheduledDate = timeString[0]+" "+timeString[1]+" "+timeString[2]+" "+timeString[3]
 
-        settimeString(scheduledTime)
+        settimeString(scheduledDate)
 
         setisStaffChange(true)
-
 
         let daysList = []
 
         daysList.push(availableDays.toString().split(","))
-
-        console.log("days:", daysList[0])
-
 
         // get the index of the chosen staff as per the name key:
 
@@ -220,18 +220,14 @@ function Home(){
 
         const currentNameIndex = getNames.indexOf(staffFirst[0])
         
-
         // use the current staff index to filter the available times for the chosen staff:
         const data = schedules.map((x, i)=> x[staffFirst[0]])[currentNameIndex]
-
 
         // filter the available times by their keys at index 0 to get the staff time array:
         const getDays = (data.map(x=>Object.keys(x)[0]))
         
         // get the index of each time array:
         const currentDateIndex = getDays.indexOf(date.toLocaleString('en-us').split("/")[1])
-
-
 
         if (daysList[0].includes(date.toLocaleString('en-us').split("/")[1])) {
 
@@ -243,9 +239,6 @@ function Home(){
             )
 
             settimeBind(availtimes)
-
-          // bind the time to a state: this takes thethe form ==> e.g data[0]["15"]:
-
         
               console.log(timeBind.length !==0)
                 
@@ -268,6 +261,8 @@ function Home(){
       const handlesave = useCallback (async(e)=>{ 
         e.preventDefault()
         setisTimePicked(true)
+
+        
         
         if(timeRef.current.value==="true"){
           setistimeChanged(false)
@@ -298,8 +293,6 @@ function Home(){
 
         else{
           const staffFirst = staffRef.current.value.split(" ")
-
-          // setisSubmitted(true)
           handlesubmit(
             setnoTimeMessage,
             setStatus,
@@ -309,9 +302,21 @@ function Home(){
             schedules,
             setisSubmitted
           )
-          setistimeChanged(true)
+          
+          zoom_meeting_submit(
+            dateRef.current.value,
+            timeRef.current.value,
+            topicRef.current.value,
+            staffRef.current.value,
+            selectedTherapist.email,
+            userInfo.first_name + " "+ userInfo.last_name,
+            userInfo.email,
+            setisSubmitted,
+            setMeetingData,
+            setisMeetingSet
+          )
 
-          console.log(timeBind)
+          setTimeMeeting(timeRef.current.value)
 
         if(timeBind.length<1){
           setisDateGone(true)
@@ -322,9 +327,6 @@ function Home(){
         timeRef.current.value = "Select a meeting time"
        
         staffRef.current.value = "Select a staff"
-
-
-        // setnoTimeMessage("Meeting scheduled successfully! You'll hear from us soon")
       
 
         }
@@ -332,6 +334,13 @@ function Home(){
       
       })
 
+      const handleTopicChange = () =>{
+        settopicSelected(true)
+      }
+
+      
+
+  
     
     return(
 
@@ -365,11 +374,21 @@ function Home(){
 
           <h2>Schedule a meeting with us today!</h2>
 
-          
 
+          <select defaultValue={'DEFAULT'} className="topic-selector" ref={topicRef} onChange={handleTopicChange}>
+              <option value="DEFAULT" disabled hidden>--Select Session Type--</option>
+              <option key={"family"}>Family Session</option>
+              <option key={"single"}>Single Session</option>
+              <option key={"couple"}>Couples Session</option>
+          </select>
+
+                
   
 
-  {!isLoaded? <div className="schedule-spin"></div>:
+  {!isLoaded ? <div className="schedule-spin"></div>:
+
+  topicSelected &&
+        
         <select defaultValue={'DEFAULT'} className="staff-selector" ref={staffRef} onChange={handlestaffchange}>
               <option value="DEFAULT" disabled hidden>--Select a Therapist-- </option>
                 {
@@ -384,7 +403,7 @@ function Home(){
 
 {/* <div className="image-container"><img alt="idowu" className="background" src={image} /></div> */}
 
-     {isStaff && isDay && isToken?
+     {isStaff && isDay && isToken && topicSelected?
      
      <DatePicker className="calendar"
      inline
@@ -432,14 +451,14 @@ function Home(){
 
       isPresent && <input className="date-writer" type="text" ref={dateRef} required contentEditable
        value={isStaffChange ? 
-        startDate.toISOString().split("T")[0].replace("/", "-").replace("/", "-"):""}/>
+       startDate.toISOString().split("T")[0].replace("/", "-").replace("/", "-"):""}/>
       }</p>
 
 {
       isPresent && todaysDay.getMonth() !== currentDay.getMonth()? "":
 
-      isSubmitted? <div><button className="schedule-button disabled" disabled type='submit'>
-        Schedule</button><div className="schedule-spin"></div></div>:
+      isSubmitted && isMeetingSet ? <div><button className="schedule-button disabled" disabled type='submit'>
+        Schedule</button></div>:
       
       isPresent && <button className="schedule-button" type='submit'>Schedule</button>
       
@@ -465,8 +484,59 @@ function Home(){
       <div className="time-message-success">
         
       </div>
+
+      <div className="time-message">{!topicSelected &&
+      <>Please the type of session you want book</>}
+      </div>
       
     </div>}
+
+    {
+    isMeetingSet?
+    <div className="schedule-spin"></div>:
+    meetingData.status !==1 ? "":
+
+    
+    <div>
+      <p className="time-message-success">
+      Session booked successfully! Please find the detail below.
+      <br></br>
+      <br></br>
+      A copy of the session detail has been sent to your email address
+      </p>
+    <table className="schedule-table">
+    <thead>
+      <tr>
+        <th>Params</th>
+        <th>Meeting Details</th>
+      </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>Therapist to meet</td>
+        <td>{meetingData.therapist_name}</td>
+      </tr>
+      <tr>
+        <td>Session Platform</td>
+        <td>{meetingData.platform}</td>
+      </tr>
+      <tr>
+        <td>Scheduled date</td>
+        <td>{meetingData.meetingTime}</td>
+      </tr>
+      <tr>
+        <td>Start time</td>
+        <td>{timeMeeting}</td>
+      </tr>
+      <tr>
+        <td>Session type</td>
+        <td>{meetingData.purpose}</td>
+      </tr>
+    </tbody>
+  </table>
+
+    </div>
+    }
     
   </div>
     )

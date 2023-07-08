@@ -51,6 +51,8 @@ img{
 
 }
 
+
+
 .add-money button{
     margin-left: 10%;
     margin-top: 30px;
@@ -85,10 +87,6 @@ img{
     color:red;
 }
 
-.time-message-success{
-    color:rgb(255, 255, 255);
-}
-
 
 .background{
     margin-top: -200px;
@@ -99,6 +97,8 @@ img{
     z-index: -1;
     
 }
+
+
 
 body{
     padding: 0;
@@ -145,7 +145,8 @@ h2{
 .schedule-button, 
 .time-seletor-select, 
 .date-writer,
-.staff-selector{
+.staff-selector,
+.topic-selector{
     width: 100px;
     height: 25px;
     text-align: center;
@@ -153,7 +154,6 @@ h2{
     font-size: large;
     background-color: #cddde1;
     border-radius: 10%;
-
     border-style: solid;
     border-color: cadetblue;
     border-width: 1px 3px 3px 1px;
@@ -162,8 +162,21 @@ h2{
 }
 
 .time-seletor-select, 
-.staff-selector{
+.staff-selector,
+.topic-selector{
   width: 270px;
+}
+
+.staff-selector{
+  margin-top: 0px;
+  margin-left: 10%;
+}
+
+
+.time-seletor-select,
+.date-writer,
+.schedule-button{
+  margin-left: 20%;
 }
 
 
@@ -210,8 +223,8 @@ h2{
     border-left: 4px solid #C9E0FF;
     width: 100px;
     height: 100px;
-    margin-left: 5%;
-    margin-top: 0px;
+    margin-left: 20%;
+    margin-top: -60px;
     position: relative;
     -webkit-animation: spin 1.5s linear infinite;
     animation: spin 1.5s linear infinite;
@@ -232,6 +245,8 @@ h2{
       transform: rotate(360deg);
     }
   }
+
+  
 
 
   table {
@@ -312,7 +327,11 @@ h2{
 }
 
 .time-message-success{
-    color: #4CAF50;
+    color: #054507;
+    margin-top: -70px;
+    position: absolute;
+    text-align: center;
+    margin-left: 20%;
 }
 .time-button-container{
     position:fixed;
@@ -488,6 +507,8 @@ h2{
   background-color: #27ae60;
 }
 
+
+
 .account-selector {
   margin-left: 90%;
   appearance: none;
@@ -649,7 +670,7 @@ color:green;
 }
 
 .user-table {
-  width: 100%;
+  width: auto;
   border-collapse: collapse;
 }
 
@@ -703,6 +724,33 @@ color:green;
 
 .confirm-edit-popup .popup-content button {
   margin-right: 10px;
+}
+
+
+
+
+
+.schedule-table {
+  width: auto;
+  border-collapse: collapse;
+  margin-top: -130px;
+  margin-left: 150px;
+}
+
+.schedule-table th,
+.schedule-table td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ccc;
+  background-color: #ecf4ec;
+}
+
+.schedule-table th {
+  background-color: #f2f2f2;
+}
+
+.schedule-table tr:last-child td {
+  border-bottom: none;
 }
 
 

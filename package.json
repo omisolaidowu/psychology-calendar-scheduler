@@ -10,6 +10,7 @@
     "@testing-library/user-event": "^12.8.3",
     "availability-calendar-react": "^1.0.10",
     "caniuse-lite": "^1.0.30001507",
+    "moment-timezone": "^0.5.43",
     "parse": "^4.1.0",
     "react": "^17.0.2",
     "react-booking-calendar": "^1.0.3",

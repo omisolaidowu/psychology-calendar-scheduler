@@ -5,8 +5,8 @@ const MyContainer = ({ className, children }) => {
     return (
       <div style={{ 
         padding: "0px", background: "#161717", 
-        color: "#fff" , marginLeft: "400px",
-        width:"fit-content", marginTop: "5%",
+        color: "#fff" , marginLeft: "500px",
+        width:"fit-content", marginTop: "8%",
         fontFamily: "Lucida Console",
 
       }}>
