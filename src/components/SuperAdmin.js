@@ -119,7 +119,7 @@ const [token, setToken] = useState('');
             <div>{!token? 
           <div className="landing-container">
             <div className="buttons-container">
-              <NavLink to="/login-page" className="button login-button">
+              <NavLink to="/" className="button login-button">
                 Login
               </NavLink>
               <NavLink to="/#" className="button register-button">

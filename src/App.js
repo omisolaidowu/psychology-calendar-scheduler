@@ -1,4 +1,4 @@
-import Home from "./components/Scheduler";
+import BookMeeting from "./components/Scheduler";
 import StaffSchedule from "./components/staffSchedular";
 import LoginPage from "./components/Login";
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
@@ -10,6 +10,9 @@ import LandingPage from "./components/Landingpage";
 import Logout from "./components/Logout";
 import Parse from "parse/dist/parse.min.js";
 import SuperAdminComponent from "./components/SuperAdmin";
+import Navigation from "./components/Notfound";
+
+
 
 const app_id = process.env.APPLICATION_ID
 const js_id = process.env.JAVASCRIPT_KEY
@@ -36,16 +39,17 @@ function App(){
     <Router>
         <Suspense fallback={<div>Please wait...</div>}>
            <Switch>
-            <Route exact strict path="/" 
+            {/* <Route exact strict path="/" 
             component={LandingPage}
-            />
+            /> */}
             
-            <Route exact strict path="/login-page"
+            <Route exact strict path="/"
              component={LoginPage}
              />
             <Route exact strict 
             path="/book-a-meeting" 
-            component={Home}
+            component={BookMeeting}
+            
             />
             <RoleBasedRoute exact strict 
             path="/admin-console" 
@@ -61,6 +65,10 @@ function App(){
             userRole={userRole}
             />
             <Route exact strict path="/logout" component={Logout}/>
+
+            <Route exact strict path="*" 
+            component={Navigation}
+            /> 
             </Switch>
         </Suspense>
     </Router>

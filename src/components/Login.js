@@ -62,7 +62,8 @@ function LoginPage() {
           }else{
             sessionStorage.setItem("access_token", result.access_token)
             sessionStorage.setItem("role", result.role)
-            redirect.goBack()
+            // redirect.goBack()
+            redirect.push("/book-a-meeting")
           }
             
         return result
@@ -78,7 +79,7 @@ function LoginPage() {
     <div className="modal-container">
       <div className="modal-content">
       <NavLink to="/" className="home-nav">
-        <h1 className='form-text'>Psyche Mega Therapy</h1>
+        <h1 className='form-text'>MegaPsycheTherapy</h1>
     </NavLink>
         
         <h2>Login</h2>

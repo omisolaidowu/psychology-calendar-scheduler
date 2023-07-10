@@ -10,9 +10,9 @@ import handlesubmit from '../handles/submitHandler';
 import getData from "../fetch-data/fetch.data";
 import user_info from "../fetch-data/user.info";
 import zoom_meeting_submit from "../fetch-data/zoom.meeting";
-import moment from 'moment-timezone';
 
-function Home(){
+
+function BookMeeting(){
 
   const timeRef = useRef()
 
@@ -21,6 +21,8 @@ function Home(){
   const staffRef = useRef()
 
   const topicRef = useRef()
+
+  const textRef = useRef(null);
     
 
     const [startDate, setStartDate] = useState(new Date());
@@ -84,6 +86,12 @@ function Home(){
 
     const [isMeetingSet, setisMeetingSet] = useState(false)
 
+    const [istimemapped, setisTimeMapped] = useState(true)
+
+    const [textCopied, setTextCopied] = useState(false)
+
+    const [sessionExpired, setSessionExpired] = useState(false)
+
 
     const [timeValue, setTimeValue] = useState("")
     
@@ -95,6 +103,8 @@ function Home(){
     useEffect(()=>{
 
       const abortController = new AbortController()
+
+      setTextCopied(false)
       
       getData(setSchedules, setfetchError, setisLoaded)
       setisLoaded(true)
@@ -118,6 +128,7 @@ function Home(){
     
 
     const handlestaffchange = useCallback(() =>{
+      
       setIsSelectClicked(true)
       setisLoaded(true)
 
@@ -208,7 +219,11 @@ function Home(){
 
         setisStaffChange(true)
 
+        try{
+
         let daysList = []
+
+        setisTimeMapped(true)
 
         daysList.push(availableDays.toString().split(","))
 
@@ -256,10 +271,25 @@ function Home(){
           setisForm(true)
         }
 
+      }catch(err){
+
+        setisTimeMapped(false)
+        settimeBind("Time not available or you didn't select a therapist")
+        console.log(err)
+      }; 
+
       })
+
+
+
 
       const handlesave = useCallback (async(e)=>{ 
         e.preventDefault()
+        if(userInfo.length<1){
+          setnoTimeMessage("Your session has expired, please login again")
+          setSessionExpired(true)
+
+      }else{
         setisTimePicked(true)
 
         
@@ -330,13 +360,30 @@ function Home(){
       
 
         }
-  
+      }
+      
       
       })
 
       const handleTopicChange = () =>{
         settopicSelected(true)
       }
+
+
+      const handleCopy = () => {
+        setTextCopied(true)
+        if (textRef.current) {
+          navigator.clipboard.writeText(textRef.current.value)
+            .then(() => {
+              console.log('Text copied to clipboard');
+              
+            })
+            .catch((error) => {
+              console.error('Failed to copy text: ', error);
+              setTextCopied(false)
+            });
+        }
+      };
 
       
 
@@ -346,12 +393,12 @@ function Home(){
 
         
   <div>
-      <NavLink to="/" className="home-nav"><h1>Psyche Mega Therapy</h1></NavLink>
+      <a href="http://127.0.0.1:5500/index.html" className="home-nav"><h1>MegaPsycheTherapy</h1></a>
 
     <div>{!token? 
           <div className="landing-container">
             <div className="buttons-container">
-              <NavLink to="/login-page" className="button login-button">
+              <NavLink to="/" className="button login-button">
                 Login
               </NavLink>
               <NavLink to="/#" className="button register-button">
@@ -364,7 +411,7 @@ function Home(){
             <button className="dropbtn fa fa-caret-down">{userInfo.first_name}</button>
                 <div className="dropdown-content">
                     <NavLink to="/book-a-meeting">Book a Meeting</NavLink>
-                    <NavLink to="/logout">Service Quotes</NavLink>
+                    <NavLink to="/">Service Quotes</NavLink>
                     <NavLink to="/logout" className="button login-button">Logout</NavLink>
                 </div>
                 
@@ -373,8 +420,6 @@ function Home(){
         </div>
 
           <h2>Schedule a meeting with us today!</h2>
-
-
           <select defaultValue={'DEFAULT'} className="topic-selector" ref={topicRef} onChange={handleTopicChange}>
               <option value="DEFAULT" disabled hidden>--Select Session Type--</option>
               <option key={"family"}>Family Session</option>
@@ -382,13 +427,9 @@ function Home(){
               <option key={"couple"}>Couples Session</option>
           </select>
 
-                
-  
-
   {!isLoaded ? <div className="schedule-spin"></div>:
 
   topicSelected &&
-        
         <select defaultValue={'DEFAULT'} className="staff-selector" ref={staffRef} onChange={handlestaffchange}>
               <option value="DEFAULT" disabled hidden>--Select a Therapist-- </option>
                 {
@@ -433,7 +474,7 @@ function Home(){
         isPresent && todaysDay.getMonth() === currentDay.getMonth()? 
         <select defaultValue={'DEFAULT'} className="time-seletor-select" ref={timeRef} required>
         <option value="DEFAULT" disabled>--Select a meeting time-- </option>
-        {isStaffChange && isTime? 
+        {isStaffChange && isTime && istimemapped? 
         timeBind.map((x, i)=><option key={i}>{x}</option>):
          
         isTimePicked && timeBind.length===0? <option value="DEFAULT" disabled>--Select a meeting time-- </option>:
@@ -481,12 +522,20 @@ function Home(){
         </strong>
       </div>
 
+      <div className="expired-message">
+        {sessionExpired && 
+        <p>
+          <strong>Session expired or you've logged in somewhere else</strong>
+        </p>
+        }
+      </div>
+
       <div className="time-message-success">
         
       </div>
 
       <div className="time-message">{!topicSelected &&
-      <>Please the type of session you want book</>}
+      <>Please select the type of session you want book</>}
       </div>
       
     </div>}
@@ -498,12 +547,13 @@ function Home(){
 
     
     <div>
+      {isPresent && !todaysDay.getMonth() !== currentDay.getMonth() ? 
       <p className="time-message-success">
       Session booked successfully! Please find the detail below.
       <br></br>
       <br></br>
       A copy of the session detail has been sent to your email address
-      </p>
+      </p>: ""}
     <table className="schedule-table">
     <thead>
       <tr>
@@ -535,6 +585,19 @@ function Home(){
     </tbody>
   </table>
 
+  <input
+        type="text"
+        readOnly
+        value={meetingData.meeting_url}
+        ref={textRef}
+        style={{ position: 'absolute', left: '-9999px' }}
+      />
+      {!textCopied ?
+      <button className="zoom-link" onClick={handleCopy}>Copy Zoom Link</button>:
+      <button className="zoom-link" onClick={handleCopy}>Link copied to clipboard &#x2713;</button>
+
+    }
+
     </div>
     }
     
@@ -543,4 +606,4 @@ function Home(){
 
 }
 
-export default Home;
+export default BookMeeting;

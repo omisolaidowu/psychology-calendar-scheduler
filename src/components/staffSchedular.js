@@ -12,9 +12,7 @@ function StaffSchedule(){
     const [monthCal, setmonthCal] = useState([])
     const dateRef = useRef()
     const timesRef = useRef()
-    const firstNameRef = useRef()
-    const lastNameRef = useRef()
-    const emailRef = useRef()
+    
     const [isavailWeekend, setisavailWeekend] = useState(true)
     const [isdeleted, setisdeleted] = useState(false)
     const [timeHandle, setTimeHandle] = useState([])
@@ -200,6 +198,7 @@ function StaffSchedule(){
     }
        
     }
+
     
       
       return(
@@ -209,7 +208,7 @@ function StaffSchedule(){
             <div>{!token? 
           <div className="landing-container">
             <div className="buttons-container">
-              <NavLink to="/login-page" className="button login-button">
+              <NavLink to="/" className="button login-button">
                 Login
               </NavLink>
               <NavLink to="/#" className="button register-button">
@@ -286,15 +285,15 @@ function StaffSchedule(){
                     </td>
 
                     {!isavailWeekend && (x.DaysName==="Saturday" || x.DaysName==="Sunday")?
-                        <td className="save-tab"><button className="save-button disabled" disabled onClick={()=>saveAction(x.date)}>Save</button></td>:
+                        <td className="save-tab"><button key={index} className="save-button disabled" disabled onClick={()=>saveAction(x.date)}>Save</button></td>:
                         isPosted && x.DaysName? 
-                        <td className="save-tab"><button className="save-button disabled" disabled onClick={()=>saveAction(x.date)}>Save</button></td>:
-                        <td className="save-tab"><button className="save-button" onClick={()=>saveAction(x.date)}>Save</button></td>
+                        <td className="save-tab"><button key={index} className="save-button disabled" disabled onClick={()=>saveAction(x.date)}>Save</button></td>:
+                        <td className="save-tab"><button key={index} className="save-button" onClick={()=>saveAction(x.date)}>Save</button></td>
                     }
 
                     {!isavailWeekend && (x.DaysName==="Saturday" || x.DaysName==="Sunday")?
-                        <td className="save-tab"><button className="save-button disabled" disabled onClick={()=>deleteAction(x.date)}>Delete</button></td>:
-                        <td className="save-tab"><button className="save-button" id="save-button delete" onClick={()=>deleteAction(x.date)}>Delete</button></td>
+                        <td className="save-tab"><button key={index} className="save-button disabled" disabled onClick={()=>deleteAction(x.date)}>Delete</button></td>:
+                        <td className="save-tab"><button key={index} className="save-button" id="save-button delete" onClick={()=>deleteAction(x.date)}>Delete</button></td>
                     }
 
                     
