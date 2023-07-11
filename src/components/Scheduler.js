@@ -11,6 +11,8 @@ import getData from "../fetch-data/fetch.data";
 import user_info from "../fetch-data/user.info";
 import zoom_meeting_submit from "../fetch-data/zoom.meeting";
 
+import NetworkStatus from "./Network";
+
 
 function BookMeeting(){
 
@@ -419,6 +421,8 @@ function BookMeeting(){
         }
         </div>
 
+        <NetworkStatus />
+
           <h2>Schedule a meeting with us today!</h2>
           <select defaultValue={'DEFAULT'} className="topic-selector" ref={topicRef} onChange={handleTopicChange}>
               <option value="DEFAULT" disabled hidden>--Select Session Type--</option>
@@ -593,7 +597,7 @@ function BookMeeting(){
         style={{ position: 'absolute', left: '-9999px' }}
       />
       {!textCopied ?
-      <button className="zoom-link" onClick={handleCopy}>Copy Zoom Link</button>:
+      <button className="zoom-link icon-zoom-in" onClick={handleCopy}>Copy Zoom Link</button>:
       <button className="zoom-link" onClick={handleCopy}>Link copied to clipboard &#x2713;</button>
 
     }

@@ -11,6 +11,7 @@ import Logout from "./components/Logout";
 import Parse from "parse/dist/parse.min.js";
 import SuperAdminComponent from "./components/SuperAdmin";
 import Navigation from "./components/Notfound";
+import NetworkStatus from "./components/Network";
 
 
 
