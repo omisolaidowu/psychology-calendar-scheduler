@@ -323,6 +323,12 @@ function BookMeeting(){
           setnoTimeMessage("Please select a therapist")
         }
 
+        else if(isTimePicked){
+          setnoTimeMessage("Time has been selected. Please reschedule." +
+          "If this persists, please wait until after 12 AM to reschedule." +
+          "If you still can't book after 12 AM midnight, please contact customer support.")
+        }
+
         else{
           const staffFirst = staffRef.current.value.split(" ")
           handlesubmit(
@@ -394,7 +400,7 @@ function BookMeeting(){
     return(
 
         
-  <div>
+  <div className="body-container">
       <a href="http://127.0.0.1:5500/index.html" className="home-nav"><h1>MegaPsycheTherapy</h1></a>
 
     <div>{!token? 
@@ -423,7 +429,7 @@ function BookMeeting(){
 
         <NetworkStatus />
 
-          <h2>Schedule a meeting with us today!</h2>
+          <h2 className="CTA-first">Schedule a meeting with us today!</h2>
           <select defaultValue={'DEFAULT'} className="topic-selector" ref={topicRef} onChange={handleTopicChange}>
               <option value="DEFAULT" disabled hidden>--Select Session Type--</option>
               <option key={"family"}>Family Session</option>
@@ -519,9 +525,9 @@ function BookMeeting(){
             </div>
           ) : 
           (
-            status === 0 && (
+            
               <div className="time-message">{noTimeMessage}</div>
-            )
+            
       )}
         </strong>
       </div>
@@ -556,7 +562,7 @@ function BookMeeting(){
       Session booked successfully! Please find the detail below.
       <br></br>
       <br></br>
-      A copy of the session detail has been sent to your email address
+      A copy has also been sent to your email address
       </p>: ""}
     <table className="schedule-table">
     <thead>
@@ -596,7 +602,9 @@ function BookMeeting(){
         ref={textRef}
         style={{ position: 'absolute', left: '-9999px' }}
       />
-      {!textCopied ?
+      {
+      
+      !textCopied ?
       <button className="zoom-link icon-zoom-in" onClick={handleCopy}>Copy Zoom Link</button>:
       <button className="zoom-link" onClick={handleCopy}>Link copied to clipboard &#x2713;</button>
 

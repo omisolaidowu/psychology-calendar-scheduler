@@ -82,7 +82,7 @@ function LoginPage() {
         <h1 className='form-text'>MegaPsycheTherapy</h1>
     </NavLink>
         
-        <h2>Login</h2>
+        <h2 className='Login-h2'>Login</h2>
 
         <form onSubmit={handleLogin}>
           <div className="form-group">
