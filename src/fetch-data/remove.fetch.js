@@ -36,12 +36,20 @@ var requestOptions = {
 
   setisSubmitted(true)
   let data = await fetch("https://megapsyche-omisolaidowu.b4a.run/api/remove-selected-time", requestOptions)
-  .then(response =>  response.json())
+  .then(response => 
+    {
+    if (response.ok) {
+      return response.json()
+    }else{
+      setMessage("Someone else might've picked your time. Please book another time or select another therapist")
+      return response.json()
+    }
+ } )
   .then(result => {
     return (
       setisSubmitted(false),
       setMessage(result["message"]),  
-      setStatus(result["status"]
+      setStatus(result["status"],
       
     ))
   })

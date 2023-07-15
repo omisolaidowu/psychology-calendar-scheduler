@@ -323,7 +323,7 @@ function BookMeeting(){
           setnoTimeMessage("Please select a therapist")
         }
 
-        else if(isTimePicked){
+        else if(status===0){
           setnoTimeMessage("Time has been selected. Please reschedule." +
           "If this persists, please wait until after 12 AM to reschedule." +
           "If you still can't book after 12 AM midnight, please contact customer support.")
@@ -521,12 +521,12 @@ function BookMeeting(){
         {isSelectClicked && status === 1 && istimeChanged ? (
             <div className="time-message-success">
               <li className="fa fa-thumbs-up"></li>
-              {noTimeMessage}
+              
             </div>
           ) : 
           (
             
-              <div className="time-message">{noTimeMessage}</div>
+              <div className="time-message"></div>
             
       )}
         </strong>
