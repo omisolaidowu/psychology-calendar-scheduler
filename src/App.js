@@ -1,18 +1,34 @@
 import BookMeeting from "./components/Scheduler";
 import StaffSchedule from "./components/staffSchedular";
-import LoginPage from "./components/Login";
+import LoginPage from "./pages/Login";
+import RegisterPage from "./pages/register";
+import HomePage from "./components/HomePage";
+import HeaderPage from "./components/header";
+import Spinner from "./components/spinner";
+import ContactPage from "./pages/contact";
+import FaqPage from "./pages/faq";
+import AppointmentHistoryPage from './pages/appointmentHistory';
+import AboutPage from "./pages/about";
+import ProfilePage from "./pages/profile"
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import './index.css'
 import { Suspense } from 'react';
 import RoleBasedRoute from "./HOCs/allowedroutes";
 import GuestRoute from "./HOCs/guest";
-import LandingPage from "./components/Landingpage";
+import LandingPage from "./pages/Landingpage";
 import Logout from "./components/Logout";
 import Parse from "parse/dist/parse.min.js";
 import SuperAdminComponent from "./components/SuperAdmin";
 import Navigation from "./components/Notfound";
 import NetworkStatus from "./components/Network";
+import Layout from "./HOCs/UserDashboardLayout";
 
+
+const FaqComponent = Layout(FaqPage)
+const HomeDashboardComponent = Layout(HomePage)
+const ProfileComponent = Layout(ProfilePage)
+const BookMeetingComponent = Layout(BookMeeting)
+const AppointmentHistoryCompomemt = Layout(AppointmentHistoryPage)
 
 
 const app_id = process.env.APPLICATION_ID
@@ -40,36 +56,70 @@ function App(){
     <Router>
         <Suspense fallback={<div>Please wait...</div>}>
            <Switch>
-            {/* <Route exact strict path="/" 
-            component={LandingPage}
-            /> */}
-            
-            <Route exact strict path="/"
-             component={LoginPage}
-             />
-            <Route exact strict 
-            path="/book-a-meeting" 
-            component={BookMeeting}
-            
+            <Route exact strict path="/contact"
+            component={ContactPage}
             />
-            <RoleBasedRoute exact strict 
-            path="/admin-console" 
+
+            <Route exact strict path="/about"
+            component={AboutPage}
+            />
+
+            <Route exact strict path="/"
+             component={LandingPage}
+             />
+
+             <Route exact strict path="/login"
+              component={LoginPage}
+              />
+
+             <Route exact strict path="/register"
+              component={RegisterPage}
+              />
+
+            <Route exact strict
+            path="/user/book-appointment"
+            component={BookMeetingComponent}
+            />
+
+            <Route exact strict
+            path="/user/dashboard"
+            component={HomeDashboardComponent}
+
+            />
+
+            <Route exact strict
+               path="/user/profile"
+               component={ProfileComponent}
+            />
+
+            <Route exact strict
+               path="/user/faq"
+               component={FaqComponent}
+            />
+
+            <Route exact strict
+               path="/user/my-appointments"
+               component={AppointmentHistoryCompomemt}
+            />
+
+            <RoleBasedRoute exact strict
+            path="/admin-console"
             component={StaffSchedule}
             allowedRoles={['super-admin', 'admin']}
             userRole={userRole}
             />
 
-            <RoleBasedRoute exact strict 
-            path="/superadmin-console" 
+            <RoleBasedRoute exact strict
+            path="/superadmin-console"
             component={SuperAdminComponent}
             allowedRoles={['super-admin']}
             userRole={userRole}
             />
             <Route exact strict path="/logout" component={Logout}/>
 
-            <Route exact strict path="*" 
+            <Route exact strict path="*"
             component={Navigation}
-            /> 
+            />
             </Switch>
         </Suspense>
     </Router>
@@ -81,5 +131,3 @@ function App(){
 
 
 export default App;
-
-

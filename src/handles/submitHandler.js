@@ -3,14 +3,14 @@ import removeTimeDate from "../fetch-data/remove.fetch"
 const handlesubmit = (
     setremovedMessage,
     setStatus,
-    time, 
-    date, 
+    time,
+    date,
     staff,
     schedules,
     setisSubmitted
     ) =>{
         let dateSelected = date.toLocaleString('en-us').split("-")
-          
+
         let firstName = schedules.map((x)=> {return x.first_name})
 
         let last_namedata = schedules.map((x)=> {return x.last_name})
@@ -23,19 +23,18 @@ const handlesubmit = (
 
         let selectedEmail = email_data[currFirstNameIndex]
     
-
         let removeData = removeTimeDate(
           setremovedMessage,
           setStatus,
-          staff,
-          last_name,
-          selectedEmail,
+          staff.first_name,
+          staff.last_name,
+          staff.email,
           Number(dateSelected[2]).toString(),
           time,
           setisSubmitted
       )
 
-    
+
 }
 
 

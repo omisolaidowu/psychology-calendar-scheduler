@@ -19,7 +19,6 @@ var requestOptions = {
 fetch("https://megapsyche-omisolaidowu.b4a.run/api/delete-token", requestOptions)
   .then(response => response.text())
   .then(result => {
-    console.log(result)
     return result.message
 })
   .catch(error => console.log('error', error));

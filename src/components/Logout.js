@@ -9,7 +9,7 @@ const Logout = () => {
     const access_token = sessionStorage.getItem("access_token")
     detele_token_db(access_token)
     sessionStorage.clear();
-    history.goBack()
+    history.push("/login")
   }, [history]);
 
   return null;

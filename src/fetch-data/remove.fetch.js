@@ -1,8 +1,8 @@
 
 const removeTimeDate = async (
-    setMessage, 
+    setMessage,
     setStatus,
-    firstName, 
+    firstName,
     lastName,
     emailAddress,
     selectedDay,
@@ -19,6 +19,10 @@ var raw = JSON.stringify({
   "last_name": lastName,
   "email": emailAddress,
   "days": selectedDay,
+  "bio": '',
+  "certification": '',
+  "image_path": '',
+  "experience": '',
   "scheduleTimes": [
   ],
   "time": selectedTime
@@ -36,7 +40,7 @@ var requestOptions = {
 
   setisSubmitted(true)
   let data = await fetch("https://megapsyche-omisolaidowu.b4a.run/api/remove-selected-time", requestOptions)
-  .then(response => 
+  .then(response =>
     {
     if (response.ok) {
       return response.json()
@@ -48,9 +52,9 @@ var requestOptions = {
   .then(result => {
     return (
       setisSubmitted(false),
-      setMessage(result["message"]),  
+      setMessage(result["message"]),
       setStatus(result["status"],
-      
+
     ))
   })
   .catch(error => {
@@ -58,7 +62,7 @@ var requestOptions = {
     setMessage("Unable to schedule meeting, please try again later or contact admin")
     )});
 
-    
+
 
   return data
 }

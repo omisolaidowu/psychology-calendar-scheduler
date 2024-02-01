@@ -1,5 +1,5 @@
 const getDaysInMonth = (year, month) =>{
-    
+
     let currMonth = new Date(year, month + 1, 0).getDate()
 
     let Ranges = [...Array(currMonth+1).keys()]
@@ -29,19 +29,13 @@ let days = daysofMonth.map(x=>
         return (
             {
                 "DaysName": getDayName(yearNow, monthNow, x),
-                "date": x.toString(), 
+                "date": x.toString(),
                 "times": [
-                    "8:00 AM", 
-                    "9:00 AM", 
-                    "10:00 AM", 
-                    "11:00 AM", 
-                    "12:00 PM", 
-                    "1:00 PM", 
-                    "2:00 PM", 
-                    "3:00 PM", 
-                    "4:00 PM",
-                    "5:00 PM",
-                    "6:00 PM"
+                    "9:00 AM",
+                    "11:00 AM",
+                    "1:00 PM",
+                    "3:00 PM",
+                    "5:00 PM"
                 ]
             })
     })
@@ -50,4 +44,3 @@ return days
 }
 
 export default schedular
-

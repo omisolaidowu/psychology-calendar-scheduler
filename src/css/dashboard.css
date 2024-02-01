@@ -1,0 +1,555 @@
+.user-dashboard-container
+{
+     padding: 15px 10px;
+     background-color: #F5F5F5;
+     margin: 0px;
+}
+.certification-span
+{
+     font-weight: bold;
+     font-size: 0.8em !important;
+}
+.user-dashboard-container .sideBarContainer
+{
+     background: black;
+     z-index: 999;
+}
+.empty-upcoming-wrapper button
+{
+     margin: 10px auto;
+     width: 100%;
+}
+.empty-upcoming-wrapper p
+{
+     font-size: 0.9em !important;
+     line-height: 25px;
+}
+.user-dashboard-container .sideBarContainer .anchorTag
+{
+     color: white;
+}
+/* <--<p>Todays' date is {new Date().toDateString()}</p>--> */
+.profile-image
+{
+     width:150px;
+     height: 150px;
+     border-radius: 50%;
+     margin: 30px auto;
+}
+.profile-avater
+{
+     width: 35px;
+     height: 35px;
+     border-radius: 50%;
+}
+.user-dashboard-container span
+{
+     font-weight: bold;
+     font-size: 1.2em;
+}
+.user-dashboard-container .flex-center
+{
+     margin-top: 0;
+     gap: 20%;
+}
+.user-dashboard-container p
+{
+     font-size: 1.1em;
+     margin: 5px 0;
+}
+.date
+{
+     font-size: 0.9em !important;
+}
+.appointment-type-card
+{
+     height: 250px;
+     width: 78%;
+     background: white;
+     padding:10px;
+     border-radius: 20px;
+     border: solid thin gray;
+     box-shadow: 1px 1px 1px #b7b7b7;
+     position: relative;
+     cursor: pointer;
+     background-image: url('./../public/pexels-karolina-grabowska-4226805.jpg');
+     background-size: cover;
+     background-repeat: no-repeat;
+     background-blend-mode: multiply;
+}
+.appointment-card-container
+{
+     margin-right: 15px;
+     padding: 25px 0;
+     display: grid;
+     gap: 5px;
+     grid-row-gap: 20px;
+     grid-template-columns: repeat(2, 1fr);
+}
+.appointment-card-text-wrapper
+{
+     position: absolute;
+     bottom: 10px;
+}
+.appointment-card-container .appointment-card-text-wrapper p
+{
+     font-weight: bold;
+     font-size: 0.9em;
+}
+.appointment-type-card:nth-child(even)
+{
+     margin-top: 20px;
+}
+.overflow-x-wrapper
+{
+     width: 100%;
+     padding: 25px 10px;
+}
+.appointment-history-container
+{
+     display: flex;
+     flex-wrap: nowrap;
+     overflow-x: scroll;
+     gap: 20px;
+     justify-content: start;
+     align-items: center;
+}
+.appointment-history-card
+{
+     min-width: 270px;
+     height: 130px;
+     border-radius: 20px;
+     box-shadow: 1px 1px 1px gray;
+     border: solid thin gray;
+     overflow: hidden;
+     display: flex;
+     box-sizing: border-box;
+     justify-content: space-between;
+}
+.appointment-history-text-wrapper p, .appointment-history-text-wrapper h4
+{
+     margin: 7px;
+     font-size: 0.9em;
+}
+.appointment-history-card-image
+{
+     width: 50%;
+     height: 100%;
+     background-image: url("./../public/guy.jpg");
+     background-size: cover;
+     background-repeat: no-repeat;
+}
+.appointment-history-text-wrapper
+{
+     width: 100%;
+     padding: 5px;
+}
+.upcoming-session-card
+{
+     width: 240px;
+     height: 300px;
+     border-radius: 20px;
+     background-color: white;
+}
+.upcoming-session-card-header
+{
+     height: 120px;
+     width: 100%;
+     display: flex;
+     background-color: white;
+     overflow: hidden;
+     background-blend-mode: multiply;
+     color: white;
+     background-image: url('./../public/Art_of_a_boy_standing_on_a_platform.jpg');
+     background-repeat: no-repeat;
+     background-size: cover;
+     justify-content: center;
+     align-items: center;
+}
+.upcoming-session-card-body
+{
+     padding: 15px;
+}
+.upcoming-session-card-body p
+{
+     text-align: left ;
+     margin: 5px 0;
+     font-size: 0.9em;
+}
+/* // <img className="profile-avater" src={avater} /> */
+/* Profile page css */
+.user-profile-page
+{
+     background-color: #F5F5F5;
+     min-height: 100vh;
+     position: relative;
+}
+.user-profile-page header .anchorTag
+{
+     color: white;
+     position: absolute;
+     top: 15px;
+     left: 15px;
+     border: none;
+     cursor: pointer;
+     font-weight: bold;
+     font-size: 1.6em;
+}
+.user-profile-page .profile-page-profile-picture
+{
+     width: 100%;
+     z-index: 100;
+     clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+     height: 100%;
+}
+.user-profile-image-wrapper
+{
+     position: absolute;
+     overflow: hidden;
+     width: 100px;
+     height: 100px;
+     top: 52vw;
+     transform: translate(-50px);
+     margin-bottom: -105px;
+     left: 50%;
+     z-index: 100;
+}
+.user-profile-page header
+{
+     height: 37vh;
+     z-index: 40;
+     background-color: black;
+     display: flex;
+     justify-content: center;
+     background-image: url("./../public/Art_of_a_boy_standing_on_a_platform.jpg");
+     background-repeat: no-repeat;
+     background-size: cover;
+     align-items: center;
+     clip-path: polygon(
+   0 0, /* left top */
+   100% 0, /* right top */
+   100% 100%, /* right bottom */
+   0 80% /* left bottom */
+ );
+}
+.user-profile-page header h1
+{
+     color: white;
+}
+.user-profile-page section
+{
+     display: grid;
+     gap: 20px;
+     padding: 60px 15px;
+}
+.user-profile-page section p
+{
+     font-weight: bold;
+     font-size: 0.9em;
+     padding: 10px;
+     width: 70vw;
+     border-bottom: 2px solid black;
+}
+/* Profile page ends here */
+
+/* Frequently asked questions */
+.faq-headline-wrapper h1
+{
+     text-align: center;
+}
+.faq-headline-wrapper p, .faq-content-container p
+{
+     font-weight: normal !important;
+     text-align: center;
+     margin: 10px auto;
+     line-height: 20px;
+     border-bottom: none !important;
+}
+.faq-content-container
+{
+     width: 100%;
+}
+.faq-content-container p
+{
+     text-align: left;
+}
+.faq-content-container h4
+{
+     margin: 10px 0 10px 0;
+     font-size: 1.1em;
+}
+.faq-content-container h4:nth-child(n+2):nth-child(-n+8)
+{
+     margin-top: 40px;
+}
+.faq-content-container details
+{
+     margin-bottom: 15px;
+}
+.faq-content-container summary
+{
+     background: gray;
+     cursor: pointer;
+     padding: 5px;
+     list-style-type: ' ';
+}
+summary::-webkit-details-marker {
+ display: none
+}
+summary::after {
+ content: ' +';
+}
+details[open] summary:after {
+ content: " -";
+}
+/* End of Frequently asked questions */
+
+/* Appointment history starts here */
+.appointment-history-wrapper header
+{
+     padding: 10px 15px;
+}
+.appointment-history-wrapper header
+{
+     display: flex;
+     justify-content: start;
+     align-items: center;
+     background: black;
+     color: white;
+     margin-bottom: 20px;
+}
+.appointment-history-wrapper header .anchorTag, .book-a-meeting-page-wrapper header  .anchorTag
+{
+     font-size: 1.3em;
+     color: white;
+     font-weight: bold;
+}
+.appointment-history-wrapper header h2
+{
+     font-size: 1.1em;
+     margin-left: 15%;
+     text-align: center;
+}
+.appointment-history-wrapper section
+{
+     display: grid;
+     gap: 40px;
+     margin-bottom: 50px;
+}
+/* Appointment history ends here */
+.flex-between
+{
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+}
+/* Book-a-meeting section starts here */
+.book-a-meeting-page-wrapper
+{
+     background: #F5F5F5;
+}
+.book-a-meeting-page-wrapper header
+{
+     background: black;
+     text-transform: uppercase;
+     padding: 25px 15px;
+     margin-bottom: 20px;
+}
+.book-a-meeting-page-wrapper .schedule-therapist-container
+{
+     display: grid;
+     gap: 15px;
+     justify-content: center;
+}
+.schedule-therapist-container
+{
+     position: relative;
+}
+.close-container-height
+{
+     height: 0px;
+     padding: 0 !important;
+     transition: height 600ms linear;
+}
+.book-a-meeting-page-wrapper header .flex-start
+{
+     gap: 25px;
+}
+.book-a-meeting-page-wrapper header  .anchorTag
+{
+     padding: 5px 0px;
+}
+.book-a-meeting-page-wrapper header div p:nth-child(2)
+{
+     text-align: right;
+}
+.book-a-meeting-page-wrapper header img
+{
+     width: 80px;
+     height: 80px;
+     border-radius: 50%;
+     margin: 0 auto;
+}
+.book-a-meeting-page-wrapper header .user-details
+{
+     display: grid;
+     gap: 0px;
+     color: white;
+     text-align: center;
+     margin-bottom: 10px;
+}
+.book-a-meeting-page-wrapper header .user-details h3
+{
+     margin: 3px 0;
+}
+.book-a-meeting-page-wrapper section
+{
+     padding: 10px 0px;
+     margin-top: 10px;
+     padding-bottom: 50px;
+}
+.book-a-meeting-page-wrapper section .therapist-card-container
+{
+     display: grid;
+     gap: 20px;
+     box-sizing: content-box;
+     overflow: hidden;
+}
+.book-a-meeting-page-wrapper section .therapist-card-container .therapist-card-wrapper
+{
+     background-color: white;
+     padding: 20px 10px;
+     width: inherit;
+}
+.book-a-meeting-page-wrapper section .therapist-card-wrapper .short-p
+{
+     margin: 4px;
+}
+.book-a-meeting-page-wrapper section .therapist-card-container .therapist-card-wrapper .short-bio-container .flex-center
+{
+     margin-top: 0px;
+}
+.book-a-meeting-page-wrapper section .therapist-card-container .therapist-card-wrapper .short-bio-container p
+{
+     line-height: 25px;
+}
+.book-a-meeting-page-wrapper section .book-meeting-button, .schedule-button
+{
+     background: black;
+     width: 90%;
+     text-align: center;
+     box-shadow: 1px 1px 1px gray;
+     padding: 15px;
+     border: none;
+     color: white;
+     margin: 10px auto;
+     font-size: 1em;
+}
+.schedule-button:disabled
+{
+     background-color: gray;
+     box-shadow: none;
+     padding: 15px;
+     width: 90%;
+     border: none;
+     color: white;
+     margin: 10px auto;
+}
+.payment-details-section
+{
+     padding: 20px;
+}
+.payment-details-section h2
+{
+     text-align: center;
+}
+.payment-details-section p
+{
+     margin: 10px;
+}
+.payment-details-section h5
+{
+     margin: 0;
+     display: inline;
+     margin-right: 10px;
+     font-size: 1em
+}
+.book-a-meeting-page-wrapper section .therapist-card-wrapper .profile-pic
+{
+     width: 95px;
+     height: 100px;
+     border-radius: 50%;
+     margin-right: 15px;
+}
+.scheduler-icon
+{
+     width: 30px;
+     border-radius: 50%;
+     height: 30px;
+}
+.book-a-meeting-page-wrapper header p
+{
+     color: white;
+}
+.book-a-meeting-page-wrapper select
+{
+     padding: 10px;
+     border: solid thin gray;
+     width: 80%;
+     display: block;
+}
+.book-a-meeting-page-wrapper select:focus
+{
+     border: inherit;
+     outline: none;
+     box-shadow: 1px 1px 1px gray;
+}
+.therapy-type-container .therapy-type-form-wrapper
+{
+     display: grid;
+     gap: 20px;
+}
+.calendar
+{
+     width: 90% !important;
+}
+.calender-section-wrapper, .meeting-time-section-wrapper
+{
+     margin-top: 25px;
+}
+.time-seletor-select
+{
+     margin-left: 0;
+}
+.display-none
+{
+     display: none;
+}
+.payment-details-section .upcoming-session-card
+{
+     height: auto;
+     width: 100%;
+     margin-bottom: 50px;
+     border-bottom-left-radius: 0;
+     border-bottom-right-radius: 0;
+}
+.schedule-therapist-container .cancel-button-container
+{
+     position: relative;
+     display: flex;
+     justify-content: end;
+     padding: 10px 0;
+}
+.schedule-therapist-container .cancel-button-container .cancel-therapist-icon
+{
+     width: 70px;
+     height: 70px;
+     position: sticky;
+     right: 0px;
+     top:0;
+     border: solid thin gray;
+     padding: 15px;
+     border-radius: 50%;
+
+}
+/* Book-a-meeting ends here */

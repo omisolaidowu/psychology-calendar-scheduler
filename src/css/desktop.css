@@ -1,0 +1,355 @@
+@media screen and (min-width: 900px) {
+     .user-layout-dashboard-container
+     {
+          display: flex !important;
+          position: relative;
+          justify-content: start;
+          overflow: hidden;
+     }
+     .user-layout-dashboard-container .homepage-header
+     {
+          background: purple;
+          padding: 80px 30px;
+     }
+     .user-layout-dashboard-container  .user-dashboard-container h4
+     {
+          font-size: 1.3em;
+     }
+     .user-layout-dashboard-container  .user-dashboard-container > div
+     {
+          padding-left: 20px;
+          padding-right: 20px;
+     }
+     .user-layout-dashboard-container  .user-dashboard-container .overflow-x-wrapper
+     {
+          width: 95%;
+          padding: 30px !important;
+     }
+     .user-layout-dashboard-container  .user-dashboard-container .empty-upcoming-wrapper
+     {
+          width: 40vw;
+          text-align: center;
+          margin: 20px auto;
+          font-size: 1.2em;
+     }
+
+     .user-layout-dashboard-container  .user-dashboard-container .homepage-section-containers
+     {
+          padding: 30px;
+     }
+
+     .user-layout-dashboard-container  .user-dashboard-container .empty-upcoming-wrapper > div
+     {
+          text-align: center;
+     }
+     .user-layout-dashboard-container  .user-dashboard-container .appointment-history-container
+     {
+          display: flex;
+          justify-content: space-evenly;
+     }
+     .user-layout-dashboard-container  .user-dashboard-container .appointment-history-card
+     {
+          height: 170px;
+          align-items: center;
+     }
+     .appointment-card-container
+     {
+          margin-right: 15px;
+          padding: 25px 0;
+          grid-template-columns: repeat(3, 1fr) !important;
+     }
+     .schedule-therapist-container
+     {
+          padding: 20px 20px;
+     }
+     .appointment-type-card:nth-child(even) {
+         margin-top: 0 !important;
+     }
+     .user-layout-dashboard-container  .user-dashboard-container .empty-upcoming-wrapper button
+     {
+          width: 50%;
+     }
+     .solid-button
+     {
+          padding-top: 20px !important;
+          padding-bottom: 20px !important;
+     }
+     .user-layout-dashboard-container .homepage-header .date
+     {
+          color: white;
+     }
+     .user-layout-dashboard-container .homepage-header div p
+     {
+          font-weight: bold;
+          color: white;
+          font-size: 2.3em;
+     }
+     .user-layout-dashboard-container section
+     {
+          min-width: 80vw;
+          overflow: hidden;
+     }
+     .user-layout-dashboard-container .sideBarContainer .anchorTag
+     {
+          color: white;
+          padding: 15px 60px;
+          text-align: center !important;
+          transition: all 100ms ease-in-out;
+     }
+     .user-layout-dashboard-container .sideBarContainer .anchorTag:hover
+     {
+          background: white;
+          color: black;
+     }
+     .user-layout-dashboard-container .sideBarContainer .navigationLinksUL
+     {
+          padding: 20px 0 ;
+     }
+     .user-layout-dashboard-container .sideBarContainer .navigationLinksUL li
+     {
+          width: 100% !important;
+          display: block !important;
+          overflow: hidden;
+          margin-bottom: 10px;
+          text-align: center;
+          cursor: pointer;
+     }
+     .sideBarContainer .flex-center
+     {
+          margin-top: 0 !important;
+          padding-top: 50px;
+     }
+     .sideBarContainer
+     {
+          padding: 0 !important;
+          position: sticky !important;
+          top: 0px !important;
+          left: 0px !important;
+          background-color: black !important;
+          width: 20vw !important;
+          min-height: 100%;
+          transform: translateX(0) !important;
+          transition: none;
+     }
+     .content-wrapper
+     {
+          padding: 0 !important;
+          margin: 0;
+     }
+     .headerNavigation
+     {
+          box-sizing: content-box;
+          padding: 5px 45px;
+          top: 0px;
+     }
+     .login-wrapper
+     {
+          padding: 25px 30px;
+          margin: 20px auto !important;
+          text-align: center;
+     }
+     .login-wrapper form .flex-center
+     {
+          margin: 40px 0 30px 30px !important;
+     }
+     .user-dashboard-container
+     {
+          padding: 0px !important;
+     }
+     .profile-avater
+     {
+          display: none;
+     }
+     .errorMessage
+     {
+          padding: 0 5px;
+     }
+     .login-wrapper form
+     {
+          width: 60%;
+          margin: 15px auto !important;
+     }
+     .login-wrapper form input
+     {
+          width: 80% !important;
+          padding: 5px;
+          margin: 25px 0 25px 0 !important;
+     }
+     .border
+     {
+          width: 190px !important;
+     }
+     .flex-center
+     {
+          margin-top: 30px !important;
+     }
+     .navigationToggle, .navigationIconContainer, .navigationToggleLeft
+     {
+          display: none !important;
+     }
+     .navigationToggle
+     {
+          width: 0;
+          background: transparent;
+          position: static;
+          box-shadow: none;
+          z-index: 0;
+          display: none;
+     }
+     .sideContainerForLogin, .login-wrapper
+     {
+          width: 50%;
+          overflow-x: hidden;
+     }
+     h3
+     {
+          font-size: 1.5em
+     }
+     .loading-state {
+       width: 100vw;
+       height: 100vh;
+       z-index: 9999;
+     }
+     .user-profile-page header
+     {
+          clip-path: none !important;
+     }
+     .user-profile-image-wrapper
+     {
+          width: 100px;
+          height: 100px;
+          top: 15vw !important;
+          transform: translate(-50px);
+          border-radius: 50%;
+          left: 30% !important;
+     }
+     .user-profile-page .profile-page-profile-picture
+     {
+          width: 100%;
+          clip-path: none !important;
+          height: 100%;
+     }
+     .user-profile-page
+     {
+          width: 100% !important;
+     }
+     .user-profile-page section .user-profile-image-wrapper, .appointment-history-wrapper header .anchorTag
+     {
+          display: none;
+     }
+     .appointment-history-wrapper header
+     {
+          background: transparent !important;
+          color: black;
+     }
+     .appointment-history-wrapper header h2
+     {
+          color: black !important;
+          margin: 30px 0 20px 20px;
+          margin-left: 0!important;
+          font-weight: bold;
+          font-size: 1.3em !important;
+     }
+     .book-a-meeting-page-wrapper header p
+     {
+          color: black !important;
+          margin: 30px 0 20px 20px;
+          font-weight: bold;
+          font-size: 1.3em !important;
+     }
+     .book-a-meeting-page-wrapper header .flex-start
+     {
+          display: flex !important;
+          justify-content: start;
+     }
+     .appointment-history-wrapper section
+     {
+          display: flex !important;
+          justify-content: space-evenly;
+          align-items: center;
+          flex-wrap: wrap;
+     }
+     .appointment-history-wrapper section .appointment-history-card
+     {
+          width: 300px;
+          height: 150px;
+     }
+
+     .user-profile-page section
+     {
+          margin: 60px auto;
+          align-self: center;
+          justify-content: center;
+     }
+     .user-profile-page section p
+     {
+          width: 30vw !important;
+     }
+     .user-profile-page header .anchorTag, .book-a-meeting-page-wrapper header .anchorTag
+     {
+          display: none;
+     }
+     .faq-headline-wrapper
+     {
+          width: 100%;
+     }
+     .faq-headline-wrapper p
+     {
+          width: inherit !important;
+     }
+     .faq-page-overall-wrapper
+     {
+          width: 40% !important;
+     }
+     .book-a-meeting-page-wrapper header
+     {
+          position: relative !important;
+          margin-bottom: 20px;
+          background: transparent !important;
+     }
+     .book-a-meeting-page-wrapper section
+     {
+          min-height: 100vh;
+     }
+     .book-a-meeting-page-wrapper section .therapist-card-container
+     {
+          display: flex !important;
+          flex-flow: wrap;
+          padding: 85px;
+          gap: 20px;
+          box-sizing: content-box;
+     }
+     .book-a-meeting-page-wrapper section .therapist-card-container .therapist-card-wrapper
+     {
+          padding: 15px !important;
+          width: 300px !important;
+          height: 450px !important;
+     }
+     .therapy-type-container h4, .calender-section-wrapper h4, .calender-section-wrapper
+     {
+          margin-top: 5px !important;
+     }
+     .header-page-component
+     {
+          background: transparent !important;
+     }
+     .header-page-component .headerNavigation .navigationLinksUL
+     {
+          display: flex !important;
+          justify-content: space-between;
+          align-items: center;
+     }
+     .header-page-component .sideBarContainer
+     {
+          display: none !important;
+     }
+     .appointment-scheduling-css
+     {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          flex-grow: 1;
+          gap: 30px;
+          justify-content: center;
+          align-items: start !important;
+     }
+}
